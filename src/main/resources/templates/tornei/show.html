@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base :: head('Dettaglio Torneo')"></head>
+<body>
+
+<nav th:replace="fragments/base :: navbar"></nav>
+
+<h1 th:text="${torneo.nome}">Nome Torneo</h1>
+<p th:text="'Anno: ' + ${torneo.anno}">Anno</p>
+<p th:text="'Descrizione: ' + ${torneo.descrizione}">Descrizione</p>
+
+<h2>Squadre partecipanti</h2>
+<div th:if="${torneo.squadre.isEmpty()}">Nessuna squadra registrata</div>
+<ul>
+  <li th:each="squadra : ${torneo.squadre}">
+    <a th:href="@{'/squadre/' + ${squadra.id}}"
+       th:text="${squadra.nome} + ' - ' + ${squadra.citta}">
+      nome squadra
+    </a>
+  </li>
+</ul>
+
+<!-- calendario partite -->
+<h2>Calendario</h2>
+<div th:if="${partite.isEmpty()}">Nessuna partita registrata</div>
+<ul>
+  <li th:each="partita : ${partite}"
+      th:text="${partita.squadraDiCasa.nome} + ' vs ' +
+                     ${partita.squadraDiTrasferta.nome} + ' - ' +
+                     ${partita.data} + ' - ' + ${partita.stato}">
+    partita
+  </li>
+</ul>
+
+<!-- classifica -->
+<h2>Classifica</h2>
+<div th:if="${classifica.isEmpty()}">Nessuna partita giocata</div>
+<table>
+  <tr>
+    <th>Squadra</th>
+    <th>Punti</th>
+    <th>V</th>
+    <th>N</th>
+    <th>P</th>
+    <th>GF</th>
+    <th>GS</th>
+  </tr>
+  <tr th:each="riga : ${classifica}">
+    <td th:text="${riga.squadra.nome}">squadra</td>
+    <td th:text="${riga.puntiTotali}">0</td>
+    <td th:text="${riga.vittorie}">0</td>
+    <td th:text="${riga.pareggi}">0</td>
+    <td th:text="${riga.sconfitte}">0</td>
+    <td th:text="${riga.golFatti}">0</td>
+    <td th:text="${riga.golSubiti}">0</td>
+  </tr>
+</table>
+
+<a th:href="@{'/tornei'}">Torna alla lista tornei</a>
+
+<footer th:replace="fragments/base :: footer"></footer>
+
+</body>
+</html>

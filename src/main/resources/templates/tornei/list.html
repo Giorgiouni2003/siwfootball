@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base :: head('Tornei')"></head>
+<body>
+
+<nav th:replace="fragments/base :: navbar"></nav>
+
+<h1>Tornei</h1>
+
+<div th:if="${tornei.isEmpty()}">Non ci sono tornei nel sistema</div>
+
+<ul>
+  <li th:each="torneo : ${tornei}">
+    <a th:href="@{'/tornei/' + ${torneo.id}}"
+       th:text="${torneo.nome} + ' - ' + ${torneo.anno}">
+      nome torneo
+    </a>
+  </li>
+</ul>
+
+<footer th:replace="fragments/base :: footer"></footer>
+
+</body>
+</html>

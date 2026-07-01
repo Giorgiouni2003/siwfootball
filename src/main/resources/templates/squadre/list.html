@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base :: head('Squadre')"></head>
+<body>
+
+<nav th:replace="fragments/base :: navbar"></nav>
+
+<h1>Squadre</h1>
+
+<!-- se non ci sono squadre -->
+<div th:if="${squadre.isEmpty()}">Non ci sono squadre nel sistema</div>
+
+<!-- lista delle squadre -->
+<ul>
+  <li th:each="squadra : ${squadre}">
+    <a th:href="@{'/squadre/' + ${squadra.id}}"
+       th:text="${squadra.nome} + ' - ' + ${squadra.citta}">
+      nome squadra
+    </a>
+  </li>
+</ul>
+
+<!-- link per tornare alla home -->
+<a th:href="@{'/tornei'}">Torna ai tornei</a>
+
+<footer th:replace="fragments/base :: footer"></footer>
+
+</body>
+</html>

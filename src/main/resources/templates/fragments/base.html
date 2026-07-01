@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8"/>
+  <title th:text="${title}">SiwFootball</title>
+</head>
+<body>
+<!-- navigazione principale, riusata in tutte le pagine -->
+<nav th:fragment="navbar">
+  <a th:href="@{/}">Home</a>
+  <a th:href="@{/tornei}">Tornei</a>
+  <a th:href="@{/squadre}">Squadre</a>
+
+  <!-- se non autenticato -->
+  <div th:if="${userDetails == null}">
+    <a th:href="@{/login}">Login</a>
+    <a th:href="@{/register}">Registrati</a>
+  </div>
+
+  <!-- se autenticato -->
+  <div th:if="${userDetails != null}">
+    <span th:text="'Ciao, ' + ${userDetails.username}">utente</span>
+    <a th:href="@{/logout}">Logout</a>
+  </div>
+</nav>
+
+<!-- footer riusato in tutte le pagine -->
+<footer th:fragment="footer">
+  <p>SiwFootball 2026</p>
+</footer>
+</body>
+</html>
