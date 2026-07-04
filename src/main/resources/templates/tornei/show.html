@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base :: head('Dettaglio Torneo')"></head>
+<head th:replace="~{fragments/base :: head('Dettaglio Torneo')}"></head>
 <body>
 
-<nav th:replace="fragments/base :: navbar"></nav>
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+
+
 
 <h1 th:text="${torneo.nome}">Nome Torneo</h1>
 <p th:text="'Anno: ' + ${torneo.anno}">Anno</p>
 <p th:text="'Descrizione: ' + ${torneo.descrizione}">Descrizione</p>
+
+<div th:if="${userDetails != null}">
+  <a th:href="@{/admin/partite/new}">+ Registra partita</a>
+</div>
 
 <h2>Squadre partecipanti</h2>
 <div th:if="${torneo.squadre.isEmpty()}">Nessuna squadra registrata</div>
@@ -58,7 +65,7 @@
 
 <a th:href="@{'/tornei'}">Torna alla lista tornei</a>
 
-<footer th:replace="fragments/base :: footer"></footer>
+<footer th:replace="~{fragments/base :: footer}"></footer>
 
 </body>
 </html>

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base :: head('Dettaglio Squadra')"></head>
+<head th:replace="~{fragments/base :: head('Dettaglio Squadra')}"></head>
 <body>
 
-<nav th:replace="fragments/base :: navbar"></nav>
+<nav th:replace="~{fragments/base :: navbar}"></nav>
 
 <!-- dati principali della squadra -->
 <h1 th:text="${squadra.nome}">Nome Squadra</h1>
+<div th:if="${userDetails != null}">
+    <a th:href="@{/admin/giocatori/new}">+ Aggiungi giocatore</a>
+</div>
 <p th:text="'Città: ' + ${squadra.citta}">Città</p>
 <p th:text="'Anno di fondazione: ' + ${squadra.annoDiFondazione}">Anno</p>
 
@@ -23,7 +26,7 @@
 <!-- link per tornare alla lista squadre -->
 <a th:href="@{'/squadre'}">Torna alla lista squadre</a>
 
-<footer th:replace="fragments/base :: footer"></footer>
+<footer th:replace="~{fragments/base :: footer}"></footer>
 
 </body>
 </html>

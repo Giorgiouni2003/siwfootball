@@ -11,6 +11,7 @@
   <a th:href="@{/tornei}">Tornei</a>
   <a th:href="@{/squadre}">Squadre</a>
 
+
   <!-- se non autenticato -->
   <div th:if="${userDetails == null}">
     <a th:href="@{/login}">Login</a>
@@ -20,9 +21,24 @@
   <!-- se autenticato -->
   <div th:if="${userDetails != null}">
     <span th:text="'Ciao, ' + ${userDetails.username}">utente</span>
+    <a th:href="@{/admin/tornei/new}">+ Torneo</a>
+    <a th:href="@{/admin/squadre/new}">+ Squadra</a>
+    <a th:href="@{/admin/giocatori/new}">+ Giocatore</a>
+    <a th:href="@{/admin/arbitri/new}">+ Arbitro</a>
+    <a th:href="@{/admin/partite/new}">+ Partita</a>
     <a th:href="@{/logout}">Logout</a>
   </div>
 </nav>
+
+
+
+<!-- link admin visibile solo agli ADMIN -->
+<div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
+  <a th:href="@{/admin/tornei/new}">Nuovo Torneo</a>
+</div>
+
+
+
 
 <!-- footer riusato in tutte le pagine -->
 <footer th:fragment="footer">

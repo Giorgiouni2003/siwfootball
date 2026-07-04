@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base :: head('Registrazione')"></head>
+<head th:replace="~{fragments/base :: head('Registrazione')}"></head>
 <body>
 
-<nav th:replace="fragments/base :: navbar"></nav>
+<nav th:replace="~{fragments/base :: navbar}"></nav>
 
 <h1>Registrazione</h1>
 
@@ -21,7 +21,7 @@
 
 <a th:href="@{/login}">Hai già un account? Accedi</a>
 
-<footer th:replace="fragments/base :: footer"></footer>
+<footer th:replace="~{fragments/base :: footer}"></footer>
 
 </body>
 </html>

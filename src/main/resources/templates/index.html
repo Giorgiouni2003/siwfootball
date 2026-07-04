@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base :: head('Home')"></head>
+<head th:replace="~{fragments/base :: head('Home')}"></head>
 <body>
 
-<nav th:replace="fragments/base :: navbar"></nav>
+<nav th:replace="~{fragments/base :: navbar}"></nav>
 
 <h1>Benvenuto su SiwFootball</h1>
 
-<footer th:replace="fragments/base :: footer"></footer>
+<footer th:replace="~{fragments/base :: footer}"></footer>
 
 </body>
 </html>

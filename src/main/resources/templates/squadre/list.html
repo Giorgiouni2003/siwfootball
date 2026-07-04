@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base :: head('Squadre')"></head>
+<head th:replace="~{fragments/base :: head('Squadre')}"></head>
 <body>
 
-<nav th:replace="fragments/base :: navbar"></nav>
+<nav th:replace="~{fragments/base :: navbar}"></nav>
 
 <h1>Squadre</h1>
+
+
+<div th:if="${userDetails != null}">
+  <a th:href="@{/admin/squadre/new}">+ Crea nuova squadra</a>
+</div>
+
 
 <!-- se non ci sono squadre -->
 <div th:if="${squadre.isEmpty()}">Non ci sono squadre nel sistema</div>
@@ -23,7 +29,7 @@
 <!-- link per tornare alla home -->
 <a th:href="@{'/tornei'}">Torna ai tornei</a>
 
-<footer th:replace="fragments/base :: footer"></footer>
+<footer th:replace="~{fragments/base :: footer}"></footer>
 
 </body>
 </html>

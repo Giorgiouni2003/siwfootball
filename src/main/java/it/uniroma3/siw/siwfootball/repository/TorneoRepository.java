@@ -11,4 +11,5 @@ public interface TorneoRepository extends CrudRepository<Torneo, Long> {
     Torneo findByNomeAndAnno(String nome, String anno);
 
 
+
 }

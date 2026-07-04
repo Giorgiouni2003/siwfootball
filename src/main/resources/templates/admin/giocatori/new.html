@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('Nuovo Giocatore')}"></head>
+<body>
+
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+<h1>Crea nuovo giocatore</h1>
+
+<form th:action="@{/admin/giocatori/new}" th:object="${giocatore}" method="post">
+  <div>
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" th:field="*{nome}"/>
+  </div>
+  <div>
+    <label for="cognome">Cognome:</label>
+    <input type="text" id="cognome" th:field="*{cognome}"/>
+  </div>
+  <div>
+    <label for="dataDiNascita">Data di nascita:</label>
+    <input type="text" id="dataDiNascita" th:field="*{dataDiNascita}"/>
+  </div>
+  <div>
+    <label for="ruolo">Ruolo:</label>
+    <input type="text" id="ruolo" th:field="*{ruolo}"/>
+  </div>
+  <div>
+    <label for="altezza">Altezza (cm):</label>
+    <input type="number" id="altezza" th:field="*{altezza}"/>
+  </div>
+
+  <!-- menu a tendina per scegliere la squadra -->
+  <div>
+    <label for="squadra">Squadra:</label>
+    <select id="squadra" name="squadra.id">
+      <option th:each="squadra : ${squadre}"
+              th:value="${squadra.id}"
+              th:text="${squadra.nome}">
+        nome squadra
+      </option>
+    </select>
+  </div>
+
+  <button type="submit">Salva</button>
+</form>
+
+<a th:href="@{/squadre}">Annulla</a>
+
+<footer th:replace="~{fragments/base :: footer}"></footer>
+
+</body>
+</html>

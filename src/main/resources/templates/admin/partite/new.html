@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('Nuova Partita')}"></head>
+<body>
+
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+<h1>Registra nuova partita</h1>
+
+<form th:action="@{/admin/partite/new}" th:object="${partita}" method="post">
+  <div>
+    <label for="data">Data:</label>
+    <input type="text" id="data" th:field="*{data}"/>
+  </div>
+  <div>
+    <label for="ora">Ora:</label>
+    <input type="text" id="ora" th:field="*{ora}"/>
+  </div>
+  <div>
+    <label for="luogo">Luogo:</label>
+    <input type="text" id="luogo" th:field="*{luogo}"/>
+  </div>
+  <div>
+    <label for="stato">Stato:</label>
+    <input type="text" id="stato" th:field="*{stato}"/>
+  </div>
+  <div>
+    <label for="goalsHome">Gol casa:</label>
+    <input type="number" id="goalsHome" th:field="*{goalsHome}"/>
+  </div>
+  <div>
+    <label for="goalsAway">Gol trasferta:</label>
+    <input type="number" id="goalsAway" th:field="*{goalsAway}"/>
+  </div>
+
+  <!-- dropdown torneo -->
+  <div>
+    <label for="torneo">Torneo:</label>
+    <select id="torneo" name="torneo.id">
+      <option th:each="torneo : ${tornei}"
+              th:value="${torneo.id}"
+              th:text="${torneo.nome} + ' - ' + ${torneo.anno}">
+        torneo
+      </option>
+    </select>
+  </div>
+
+  <!-- dropdown squadra di casa -->
+  <div>
+    <label for="squadraDiCasa">Squadra di casa:</label>
+    <select id="squadraDiCasa" name="squadraDiCasa.id">
+      <option th:each="squadra : ${squadre}"
+              th:value="${squadra.id}"
+              th:text="${squadra.nome}">
+        squadra
+      </option>
+    </select>
+  </div>
+
+  <!-- dropdown squadra in trasferta -->
+  <div>
+    <label for="squadraDiTrasferta">Squadra in trasferta:</label>
+    <select id="squadraDiTrasferta" name="squadraDiTrasferta.id">
+      <option th:each="squadra : ${squadre}"
+              th:value="${squadra.id}"
+              th:text="${squadra.nome}">
+        squadra
+      </option>
+    </select>
+  </div>
+
+  <!-- dropdown arbitro -->
+  <div>
+    <label for="arbitro">Arbitro:</label>
+    <select id="arbitro" name="arbitro.id">
+      <option th:each="arbitro : ${arbitri}"
+              th:value="${arbitro.id}"
+              th:text="${arbitro.nome} + ' ' + ${arbitro.cognome}">
+        arbitro
+      </option>
+    </select>
+  </div>
+
+  <button type="submit">Salva</button>
+</form>
+
+<a th:href="@{/tornei}">Annulla</a>
+
+<footer th:replace="~{fragments/base :: footer}"></footer>
+
+</body>
+</html>

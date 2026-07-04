@@ -2,6 +2,7 @@ package it.uniroma3.siw.siwfootball.service;
 
 
 import it.uniroma3.siw.siwfootball.model.Squadra;
+import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.repository.SquadraRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +35,5 @@ public class SquadraService {
     public Squadra save(Squadra squadra) {
         return this.squadraRepository.save(squadra);
     }
+
 }
