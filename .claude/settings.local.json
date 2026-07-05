@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew compileJava -q)",
+      "Bash(timeout 25 ./gradlew bootRun --console=plain)",
+      "Bash(./gradlew bootRun --console=plain)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(sleep 20 && tail -60 /tmp/bootrun.log)",
+      "Bash(kill 9923)",
+      "Bash(pkill -f \"SiwfootballApplication\")",
+      "Bash(jobs)",
+      "Bash(./gradlew bootRun --console=plain > /tmp/bootrun2.log 2>&1 & *)",
+      "Bash(lsof -ti:8080)",
+      "Bash(xargs kill -9)",
+      "Bash(curl -s -c /tmp/cookies.txt -o /dev/null \"http://localhost:8080/register\")",
+      "Bash(curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -X POST http://localhost:8080/register -d 'username=tempadmin&password=password123' -o /tmp/register.html -w 'HTTP:%{http_code}\\\\n')",
+      "Bash(PGPASSWORD=postgres psql -h localhost -U postgres -d siwfootball -c \"UPDATE utente SET ruolo='ADMIN' WHERE username='tempadmin'; SELECT username, ruolo FROM utente WHERE username='tempadmin';\")",
+      "Read(//usr/local/**)",
+      "Bash(find / -maxdepth 6 -iname \"psql\" -type f)",
+      "Bash(xargs cat)"
+    ]
+  }
+}

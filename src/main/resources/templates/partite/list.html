@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('Elenco Partite')}"></head>
+<body>
+
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+<h1>Elenco Partite</h1>
+
+<!-- React monterà qui dentro il componente con l'elenco e i filtri -->
+<div id="root">Caricamento in corso...</div>
+
+<!-- librerie React caricate da CDN (nessun build tool necessario) -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<!-- Babel standalone: traduce il JSX in JS direttamente nel browser -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- il nostro componente, scritto in JSX -->
+<script type="text/babel" th:src="@{/js/partite-list.jsx}"></script>
+
+<footer th:replace="~{fragments/base :: footer}"></footer>
+
+</body>
+</html>

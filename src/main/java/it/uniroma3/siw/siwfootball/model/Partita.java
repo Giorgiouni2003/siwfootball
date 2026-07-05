@@ -37,10 +37,11 @@ public class Partita {
     @Column(nullable = false)
     private Integer goalsAway;
 
-    //in che stato si trova la partita?
-    @NotBlank
+    //in che stato si trova la partita? (SCHEDULED o PLAYED, vedi enum StatoPartita)
+    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String stato;
+    private StatoPartita stato;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -115,11 +116,11 @@ public class Partita {
         this.goalsAway = goalsAway;
     }
 
-    public String getStato() {
+    public StatoPartita getStato() {
         return stato;
     }
 
-    public void setStato(String stato) {
+    public void setStato(StatoPartita stato) {
         this.stato = stato;
     }
 

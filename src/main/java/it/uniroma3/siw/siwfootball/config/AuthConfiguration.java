@@ -46,8 +46,9 @@ public class AuthConfiguration {
                                 "/", "/tornei", "/tornei/**",
                                 "/squadre", "/squadre/**",
                                 "/partite", "/partite/**",
+                                "/api/**",
                                 "/login", "/register",
-                                "/css/**", "/images/**").permitAll()
+                                "/css/**", "/images/**", "/js/**").permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/login", "/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")

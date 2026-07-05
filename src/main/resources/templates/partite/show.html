@@ -10,7 +10,7 @@
 
 <p th:text="'Data: ' + ${partita.data} + ' ' + ${partita.ora}">Data</p>
 <p th:text="'Luogo: ' + ${partita.luogo}">Luogo</p>
-<p>Stato: <span class="badge" th:text="${partita.stato}">stato</span></p>
+<p>Stato: <span class="badge" th:text="${partita.stato.etichetta}">stato</span></p>
 <p th:text="'Risultato: ' + ${partita.goalsHome} + ' - ' + ${partita.goalsAway}">Risultato</p>
 <p th:text="'Arbitro: ' + ${partita.arbitro.nome} + ' ' + ${partita.arbitro.cognome}">Arbitro</p>
 
@@ -36,12 +36,14 @@
     </li>
   </ul>
 
-  <h3>Aggiungi un commento</h3>
-  <form th:action="@{'/partite/' + ${partita.id} + '/commenti'}" th:object="${commento}" method="post">
-    <textarea th:field="*{testo}"></textarea>
-    <span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}">Errore testo</span>
-    <button type="submit">Invia</button>
-  </form>
+  <div th:unless="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+    <h3>Aggiungi un commento</h3>
+    <form th:action="@{'/partite/' + ${partita.id} + '/commenti'}" th:object="${commento}" method="post">
+      <textarea th:field="*{testo}"></textarea>
+      <span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}">Errore testo</span>
+      <button type="submit">Invia</button>
+    </form>
+  </div>
 </div>
 
 <footer th:replace="~{fragments/base :: footer}"></footer>

@@ -4,6 +4,7 @@ package it.uniroma3.siw.siwfootball.service;
 import it.uniroma3.siw.siwfootball.model.Arbitro;
 import it.uniroma3.siw.siwfootball.model.Partita;
 import it.uniroma3.siw.siwfootball.model.Squadra;
+import it.uniroma3.siw.siwfootball.model.StatoPartita;
 import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.repository.PartitaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,6 +49,27 @@ public class PartitaService {
         return this.partitaRepository.findByArbitro(arbitro);
     }
 
+    // tutte le partite, usata come base per i filtri dell'elenco React
+    public List<Partita> findAll() {
+        List<Partita> partite = new ArrayList<>();
+        this.partitaRepository.findAll().forEach(partite::add);
+        return partite;
+    }
+
+    // filtra le partite in memoria in base ai parametri passati (tutti opzionali, null = "nessun filtro")
+    public List<Partita> filtra(Long torneoId, Long squadraId, StatoPartita stato) {
+        return this.findAll().stream()
+                // filtro per torneo, se richiesto
+                .filter(p -> torneoId == null || Objects.equals(p.getTorneo().getId(), torneoId))
+                // filtro per squadra (casa o trasferta), se richiesto
+                .filter(p -> squadraId == null
+                        || Objects.equals(p.getSquadraDiCasa().getId(), squadraId)
+                        || Objects.equals(p.getSquadraDiTrasferta().getId(), squadraId))
+                // filtro per stato (SCHEDULED/PLAYED), se richiesto
+                .filter(p -> stato == null || p.getStato() == stato)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public Partita save(Partita partita) {
         return this.partitaRepository.save(partita);
@@ -59,7 +83,7 @@ public class PartitaService {
     
 
     public List<RigaClassifica> getClassifica(Torneo torneo) {
-        List<Partita> partiteGiocate = this.partitaRepository.findPartiteGiocateByTorneo(torneo);
+        List<Partita> partiteGiocate = this.partitaRepository.findPartiteGiocateByTorneo(torneo, StatoPartita.PLAYED);
 
         Map<Squadra, RigaClassifica> mappaClassifica = new HashMap<>();
 

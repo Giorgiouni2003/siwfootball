@@ -23,6 +23,12 @@ public class PartitaController {
 
 
 
+    // pagina "shell": il contenuto vero e proprio (elenco + filtri) è renderizzato da React
+    @GetMapping("/partite")
+    public String list() {
+        return "partite/list";
+    }
+
     @GetMapping("/partite/{id}")
     public String partite(Model model, @PathVariable Long id) {
 

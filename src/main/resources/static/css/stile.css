@@ -193,6 +193,36 @@ button[type="submit"]:hover {
   background-color: #1f3a5c;
 }
 
+/* --- Filtri elenco partite (componente React) --- */
+.filtri-partite {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filtri-partite select {
+  width: auto;
+}
+
+.filtri-partite button {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.filtri-partite button:hover {
+  background-color: #1f3a5c;
+}
+
 /* --- Messaggi di errore --- */
 /* span dentro i form: errori di validazione dei singoli campi */
 form span {

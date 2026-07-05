@@ -35,6 +35,12 @@ public class CommentoController {
     public String saveCommento(@PathVariable Long id, @Valid @ModelAttribute Commento commento,
                                 BindingResult bindingResult, Authentication authentication, Model model) {
 
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+        if (isAdmin) {
+            return "redirect:/partite/" + id;
+        }
+
         Partita partita = partitaService.findById(id);
 
         if (bindingResult.hasErrors()) {

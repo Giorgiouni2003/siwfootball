@@ -25,7 +25,13 @@
   </div>
   <div>
     <label for="stato">Stato:</label>
-    <input type="text" id="stato" th:field="*{stato}"/>
+    <select id="stato" th:field="*{stato}">
+      <option th:each="s : ${T(it.uniroma3.siw.siwfootball.model.StatoPartita).values()}"
+              th:value="${s.name()}"
+              th:text="${s.etichetta}">
+        stato
+      </option>
+    </select>
     <span th:if="${#fields.hasErrors('stato')}" th:errors="*{stato}">Errore stato</span>
   </div>
   <div>

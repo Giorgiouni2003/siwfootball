@@ -88,7 +88,7 @@ public class AdminPartitaController {
 
         Partita oldPartita = this.partitaService.findById(id);
 
-        if (partita.getStato() == null || partita.getStato().isBlank()
+        if (partita.getStato() == null
                 || partita.getGoalsHome() == null || partita.getGoalsAway() == null) {
             model.addAttribute("partita", oldPartita);
             model.addAttribute("errore", "Stato e risultato sono obbligatori");

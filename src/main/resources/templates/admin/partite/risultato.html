@@ -12,7 +12,13 @@
 <form th:action="@{'/admin/partite/' + ${partita.id} + '/edit'}" th:object="${partita}" method="post">
   <div>
     <label for="stato">Stato:</label>
-    <input type="text" id="stato" th:field="*{stato}"/>
+    <select id="stato" th:field="*{stato}">
+      <option th:each="s : ${T(it.uniroma3.siw.siwfootball.model.StatoPartita).values()}"
+              th:value="${s.name()}"
+              th:text="${s.etichetta}">
+        stato
+      </option>
+    </select>
   </div>
   <div>
     <label for="goalsHome">Gol casa:</label>
