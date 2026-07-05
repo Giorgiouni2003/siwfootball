@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/base :: head('Nuovo Giocatore')}"></head>
+<head th:replace="~{fragments/base :: head('Modifica Giocatore')}"></head>
 <body>
 
 <nav th:replace="~{fragments/base :: navbar}"></nav>
 
-<h1>Crea nuovo giocatore</h1>
+<h1>Modifica giocatore</h1>
 
-<form th:action="@{/admin/giocatori/new}" th:object="${giocatore}" method="post">
+<form th:action="@{'/admin/giocatori/' + ${giocatore.id} + '/edit'}" th:object="${giocatore}" method="post">
+  <input type="hidden" th:field="*{id}"/>
   <div>
     <label for="nome">Nome:</label>
     <input type="text" id="nome" th:field="*{nome}"/>
@@ -49,7 +50,7 @@
   <button type="submit">Salva</button>
 </form>
 
-<a th:href="@{/squadre}">Annulla</a>
+<a th:href="@{'/giocatori/' + ${giocatore.id}}">Annulla</a>
 
 <footer th:replace="~{fragments/base :: footer}"></footer>
 

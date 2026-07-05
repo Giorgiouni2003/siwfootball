@@ -36,9 +36,11 @@ public class TorneoController {
     // calendario partite, classifica (MULTI-ENTITÀ: Torneo+Squadra+Partita)
     @GetMapping("/tornei/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("torneo", this.torneoService.findById(id));
-        model.addAttribute("partite", this.partitaService.findByTorneo(torneoService.findById(id)));
-        model.addAttribute("classifica", this.partitaService.getClassifica(torneoService.findById(id)));
+        Torneo torneo = this.torneoService.findById(id);
+
+        model.addAttribute("torneo", torneo);
+        model.addAttribute("partite", this.partitaService.findByTorneo(torneo));
+        model.addAttribute("classifica", this.partitaService.getClassifica(torneo));
 
         return "tornei/show";
 

@@ -8,7 +8,7 @@
 <h1>Login</h1>
 
 <!-- messaggio di errore se le credenziali sono sbagliate -->
-<div th:if="${param.error}">Username o password errati</div>
+<div class="errore" th:if="${param.error}">Username o password errati</div>
 
 <form th:action="@{/login}" method="post">
   <div>

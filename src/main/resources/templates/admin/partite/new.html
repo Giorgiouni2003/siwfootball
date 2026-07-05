@@ -11,26 +11,32 @@
   <div>
     <label for="data">Data:</label>
     <input type="text" id="data" th:field="*{data}"/>
+    <span th:if="${#fields.hasErrors('data')}" th:errors="*{data}">Errore data</span>
   </div>
   <div>
     <label for="ora">Ora:</label>
     <input type="text" id="ora" th:field="*{ora}"/>
+    <span th:if="${#fields.hasErrors('ora')}" th:errors="*{ora}">Errore ora</span>
   </div>
   <div>
     <label for="luogo">Luogo:</label>
     <input type="text" id="luogo" th:field="*{luogo}"/>
+    <span th:if="${#fields.hasErrors('luogo')}" th:errors="*{luogo}">Errore luogo</span>
   </div>
   <div>
     <label for="stato">Stato:</label>
     <input type="text" id="stato" th:field="*{stato}"/>
+    <span th:if="${#fields.hasErrors('stato')}" th:errors="*{stato}">Errore stato</span>
   </div>
   <div>
     <label for="goalsHome">Gol casa:</label>
     <input type="number" id="goalsHome" th:field="*{goalsHome}"/>
+    <span th:if="${#fields.hasErrors('goalsHome')}" th:errors="*{goalsHome}">Errore gol casa</span>
   </div>
   <div>
     <label for="goalsAway">Gol trasferta:</label>
     <input type="number" id="goalsAway" th:field="*{goalsAway}"/>
+    <span th:if="${#fields.hasErrors('goalsAway')}" th:errors="*{goalsAway}">Errore gol trasferta</span>
   </div>
 
   <!-- dropdown torneo -->

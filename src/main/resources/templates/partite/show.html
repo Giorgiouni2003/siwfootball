@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('Dettaglio Partita')}"></head>
+<body>
+
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+<!-- dati principali della partita -->
+<h1 th:text="${partita.squadraDiCasa.nome} + ' vs ' + ${partita.squadraDiTrasferta.nome}">Squadra1 vs Squadra2</h1>
+
+<p th:text="'Data: ' + ${partita.data} + ' ' + ${partita.ora}">Data</p>
+<p th:text="'Luogo: ' + ${partita.luogo}">Luogo</p>
+<p>Stato: <span class="badge" th:text="${partita.stato}">stato</span></p>
+<p th:text="'Risultato: ' + ${partita.goalsHome} + ' - ' + ${partita.goalsAway}">Risultato</p>
+<p th:text="'Arbitro: ' + ${partita.arbitro.nome} + ' ' + ${partita.arbitro.cognome}">Arbitro</p>
+
+<div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
+  <a th:href="@{'/admin/partite/' + ${partita.id} + '/risultato'}">Inserisci risultato</a>
+  <form th:action="@{'/admin/partite/' + ${partita.id} + '/delete'}" method="post">
+    <button type="submit">Cancella partita</button>
+  </form>
+</div>
+
+<!-- link per tornare al torneo -->
+<a th:href="@{'/tornei/' + ${partita.torneo.id}}">Torna al torneo</a>
+
+<!-- commenti, visibili solo agli utenti autenticati -->
+<div th:if="${userDetails != null}">
+  <h2>Commenti</h2>
+  <div th:if="${commenti.isEmpty()}">Nessun commento</div>
+  <ul>
+    <li th:each="commento : ${commenti}">
+      <span th:text="${commento.utente.username} + ': ' + ${commento.testo}">commento</span>
+      <a th:if="${commento.utente.username == userDetails.username}"
+         th:href="@{'/commenti/' + ${commento.id} + '/edit'}">Modifica</a>
+    </li>
+  </ul>
+
+  <h3>Aggiungi un commento</h3>
+  <form th:action="@{'/partite/' + ${partita.id} + '/commenti'}" th:object="${commento}" method="post">
+    <textarea th:field="*{testo}"></textarea>
+    <span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}">Errore testo</span>
+    <button type="submit">Invia</button>
+  </form>
+</div>
+
+<footer th:replace="~{fragments/base :: footer}"></footer>
+
+</body>
+</html>

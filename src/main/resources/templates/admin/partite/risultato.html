@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('Risultato Partita')}"></head>
+<body>
+
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+<h1>Risultato partita</h1>
+
+<div class="errore" th:if="${errore}" th:text="${errore}">Errore</div>
+
+<form th:action="@{'/admin/partite/' + ${partita.id} + '/edit'}" th:object="${partita}" method="post">
+  <div>
+    <label for="stato">Stato:</label>
+    <input type="text" id="stato" th:field="*{stato}"/>
+  </div>
+  <div>
+    <label for="goalsHome">Gol casa:</label>
+    <input type="number" id="goalsHome" th:field="*{goalsHome}"/>
+  </div>
+  <div>
+    <label for="goalsAway">Gol trasferta:</label>
+    <input type="number" id="goalsAway" th:field="*{goalsAway}"/>
+  </div>
+
+
+
+  <button type="submit">Salva</button>
+</form>
+<a th:href="@{'/partite/' + ${partita.id}}">Annulla</a>
+
+<footer th:replace="~{fragments/base :: footer}"></footer>
+
+</body>
+</html>

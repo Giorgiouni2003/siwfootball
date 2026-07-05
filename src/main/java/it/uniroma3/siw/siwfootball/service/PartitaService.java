@@ -6,7 +6,9 @@ import it.uniroma3.siw.siwfootball.model.Partita;
 import it.uniroma3.siw.siwfootball.model.Squadra;
 import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.repository.PartitaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +16,22 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 public class PartitaService {
 
     private final PartitaRepository partitaRepository;
 
     public PartitaService(PartitaRepository partitaRepository) {
+
         this.partitaRepository = partitaRepository;
     }
+
+
+    public Partita findById(Long id) {
+        return this.partitaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Partita non trovata: " + id));
+    }
+
 
     public List<Partita> findByTorneo(Torneo torneo) {
         return partitaRepository.findByTorneo(torneo);
@@ -35,12 +46,16 @@ public class PartitaService {
         return this.partitaRepository.findByArbitro(arbitro);
     }
 
+    @Transactional
     public Partita save(Partita partita) {
         return this.partitaRepository.save(partita);
     }
 
 
-
+    @Transactional
+    public void delete(Partita p) {
+        this.partitaRepository.delete(p);
+    }
     
 
     public List<RigaClassifica> getClassifica(Torneo torneo) {

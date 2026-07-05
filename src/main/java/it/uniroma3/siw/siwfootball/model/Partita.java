@@ -1,7 +1,11 @@
 package it.uniroma3.siw.siwfootball.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,24 +15,30 @@ public class Partita {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String data;
 
+    @NotBlank
     @Column(nullable = false)
     private String ora;
 
+    @NotBlank
     @Column(nullable = false)
     private String luogo;
 
     //Gol segnati in casa
+    @NotNull
     @Column(nullable = false)
     private Integer goalsHome;
 
     //Gol segnati in trasferta
+    @NotNull
     @Column(nullable = false)
     private Integer goalsAway;
 
     //in che stato si trova la partita?
+    @NotBlank
     @Column(nullable = false)
     private String stato;
 
@@ -47,6 +57,15 @@ public class Partita {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Arbitro arbitro;
+
+
+    @OneToMany(mappedBy = "partita", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Commento> commenti = new ArrayList<>();
+
+
+
+
+
 
     public Long getId() {
         return id;

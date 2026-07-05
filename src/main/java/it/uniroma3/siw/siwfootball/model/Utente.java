@@ -2,6 +2,9 @@ package it.uniroma3.siw.siwfootball.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Utente {
 
@@ -17,6 +20,10 @@ public class Utente {
 
     @Column(nullable = false)
     private String ruolo;
+
+
+    @OneToMany(mappedBy = "utente", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Commento> commenti = new ArrayList<>();
 
     public Long getId() {
         return id;

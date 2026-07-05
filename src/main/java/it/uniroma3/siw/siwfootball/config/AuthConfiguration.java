@@ -45,6 +45,7 @@ public class AuthConfiguration {
                         .requestMatchers(HttpMethod.GET,
                                 "/", "/tornei", "/tornei/**",
                                 "/squadre", "/squadre/**",
+                                "/partite", "/partite/**",
                                 "/login", "/register",
                                 "/css/**", "/images/**").permitAll()
                         .requestMatchers(HttpMethod.POST,

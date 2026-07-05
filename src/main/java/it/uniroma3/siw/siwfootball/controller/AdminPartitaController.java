@@ -1,16 +1,18 @@
 package it.uniroma3.siw.siwfootball.controller;
 
+import it.uniroma3.siw.siwfootball.model.Arbitro;
 import it.uniroma3.siw.siwfootball.model.Partita;
+import it.uniroma3.siw.siwfootball.model.Squadra;
+import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.service.ArbitroService;
 import it.uniroma3.siw.siwfootball.service.PartitaService;
 import it.uniroma3.siw.siwfootball.service.SquadraService;
 import it.uniroma3.siw.siwfootball.service.TorneoService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AdminPartitaController {
@@ -40,16 +42,77 @@ public class AdminPartitaController {
     }
 
     @PostMapping("/admin/partite/new")
-    public String savePartita(@ModelAttribute Partita partita,
+    public String savePartita(@Valid @ModelAttribute Partita partita,
+                              BindingResult bindingResult,
                               @RequestParam("torneo.id") Long torneoId,
                               @RequestParam("squadraDiCasa.id") Long squadraCasaId,
                               @RequestParam("squadraDiTrasferta.id") Long squadraTrasfertaId,
-                              @RequestParam("arbitro.id") Long arbitroId) {
-        partita.setTorneo(torneoService.findById(torneoId));
-        partita.setSquadraDiCasa(squadraService.findById(squadraCasaId));
-        partita.setSquadraDiTrasferta(squadraService.findById(squadraTrasfertaId));
-        partita.setArbitro(arbitroService.findById(arbitroId));
+                              @RequestParam("arbitro.id") Long arbitroId,
+                              Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("tornei", torneoService.findAll());
+            model.addAttribute("squadre", squadraService.findAll());
+            model.addAttribute("arbitri", arbitroService.findAll());
+            return "admin/partite/new";
+        }
+
+        Torneo torneo = torneoService.findById(torneoId);
+        Squadra squadraDiCasa = squadraService.findById(squadraCasaId);
+        Squadra squadraDiTrasferta = squadraService.findById(squadraTrasfertaId);
+        Arbitro arbitro = arbitroService.findById(arbitroId);
+
+        partita.setTorneo(torneo);
+        partita.setSquadraDiCasa(squadraDiCasa);
+        partita.setSquadraDiTrasferta(squadraDiTrasferta);
+        partita.setArbitro(arbitro);
         partitaService.save(partita);
         return "redirect:/tornei/" + torneoId;
+    }
+
+
+
+    //METODI PER VISUALIZZARE E MODIFICARE LO STATO DI UNA PARTITA
+    @GetMapping("/admin/partite/{id}/risultato")
+    public String risultato(@PathVariable Long id, Model model) {
+
+        Partita partita = this.partitaService.findById(id);
+
+        model.addAttribute("partita", partita);
+
+        return "admin/partite/risultato";
+    }
+
+    @PostMapping("/admin/partite/{id}/edit")
+    public String risultatoPartita(@PathVariable Long id, @ModelAttribute Partita partita, Model model) {
+
+        Partita oldPartita = this.partitaService.findById(id);
+
+        if (partita.getStato() == null || partita.getStato().isBlank()
+                || partita.getGoalsHome() == null || partita.getGoalsAway() == null) {
+            model.addAttribute("partita", oldPartita);
+            model.addAttribute("errore", "Stato e risultato sono obbligatori");
+            return "admin/partite/risultato";
+        }
+
+        oldPartita.setGoalsAway(partita.getGoalsAway());
+        oldPartita.setGoalsHome(partita.getGoalsHome());
+        oldPartita.setStato(partita.getStato());
+
+        partitaService.save(oldPartita);
+
+        return "redirect:/partite/" + oldPartita.getId();
+    }
+
+    //METODO PER ELIMINARE UNA PARTITA
+    @PostMapping("/admin/partite/{id}/delete")
+    public String deletePartita(@PathVariable Long id) {
+
+
+        Partita partita = this.partitaService.findById(id);
+
+        partitaService.delete(partita);
+
+        return "redirect:/partite";
     }
 }

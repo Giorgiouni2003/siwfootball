@@ -7,8 +7,12 @@
 
 <!-- dati principali della squadra -->
 <h1 th:text="${squadra.nome}">Nome Squadra</h1>
-<div th:if="${userDetails != null}">
+<div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
     <a th:href="@{/admin/giocatori/new}">+ Aggiungi giocatore</a>
+    <a th:href="@{'/admin/squadre/' + ${squadra.id} + '/edit'}">Modifica squadra</a>
+    <form th:action="@{'/admin/squadre/' + ${squadra.id} + '/delete'}" method="post">
+      <button type="submit">Cancella squadra</button>
+    </form>
 </div>
 <p th:text="'Città: ' + ${squadra.citta}">Città</p>
 <p th:text="'Anno di fondazione: ' + ${squadra.annoDiFondazione}">Anno</p>
@@ -17,9 +21,12 @@
 <h2>Giocatori</h2>
 <div th:if="${squadra.giocatori.isEmpty()}">Nessun giocatore registrato</div>
 <ul>
-  <li th:each="giocatore : ${squadra.giocatori}"
-      th:text="${giocatore.nome} + ' ' + ${giocatore.cognome} + ' - ' + ${giocatore.ruolo}">
-    nome giocatore
+  <li th:each="giocatore : ${squadra.giocatori}">
+    <span th:text="${giocatore.nome} + ' ' + ${giocatore.cognome} + ' - ' + ${giocatore.ruolo}">
+      nome giocatore
+    </span>
+    <a th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}"
+       th:href="@{'/admin/giocatori/' + ${giocatore.id} + '/edit'}">Modifica</a>
   </li>
 </ul>
 

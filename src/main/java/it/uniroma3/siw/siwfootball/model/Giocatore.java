@@ -2,6 +2,8 @@ package it.uniroma3.siw.siwfootball.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -12,19 +14,24 @@ public class Giocatore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String nome;
 
 
+    @NotBlank
     @Column(nullable = false)
     private String cognome;
 
+    @NotBlank
     @Column(nullable = false)
     private String dataDiNascita;
 
+    @NotBlank
     @Column(nullable = false)
     private String ruolo;
 
+    @NotNull
     @Column(nullable = false)
     private Integer altezza;
 

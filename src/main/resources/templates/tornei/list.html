@@ -7,7 +7,7 @@
 
 <h1>Tornei</h1>
 
-<div th:if="${userDetails != null}">
+<div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
   <a th:href="@{/admin/tornei/new}">+ Crea nuovo torneo</a>
 </div>
 

@@ -19,6 +19,7 @@ public interface PartitaRepository extends CrudRepository<Partita, Long> {
     List<Partita> findByArbitro(Arbitro arbitro);
 
 
+
     @Query("SELECT p FROM Partita p " +
             "JOIN FETCH p.squadraDiCasa " +
             "JOIN FETCH p.squadraDiTrasferta " +

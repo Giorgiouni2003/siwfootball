@@ -12,8 +12,9 @@
 <p th:text="'Anno: ' + ${torneo.anno}">Anno</p>
 <p th:text="'Descrizione: ' + ${torneo.descrizione}">Descrizione</p>
 
-<div th:if="${userDetails != null}">
+<div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
   <a th:href="@{/admin/partite/new}">+ Registra partita</a>
+  <a th:href="@{'/admin/tornei/' + ${torneo.id} + '/edit'}">Modifica torneo</a>
 </div>
 
 <h2>Squadre partecipanti</h2>
@@ -31,11 +32,13 @@
 <h2>Calendario</h2>
 <div th:if="${partite.isEmpty()}">Nessuna partita registrata</div>
 <ul>
-  <li th:each="partita : ${partite}"
-      th:text="${partita.squadraDiCasa.nome} + ' vs ' +
-                     ${partita.squadraDiTrasferta.nome} + ' - ' +
-                     ${partita.data} + ' - ' + ${partita.stato}">
-    partita
+  <li th:each="partita : ${partite}">
+    <a th:href="@{'/partite/' + ${partita.id}}"
+       th:text="${partita.squadraDiCasa.nome} + ' vs ' +
+                      ${partita.squadraDiTrasferta.nome} + ' - ' +
+                      ${partita.data} + ' - ' + ${partita.stato}">
+      partita
+    </a>
   </li>
 </ul>
 

@@ -3,6 +3,7 @@
 <head th:fragment="head(title)">
   <meta charset="UTF-8"/>
   <title th:text="${title}">SiwFootball</title>
+  <link th:href="@{/css/stile.css}" rel="stylesheet"/>
 </head>
 <body>
 <!-- navigazione principale, riusata in tutte le pagine -->
@@ -18,27 +19,20 @@
     <a th:href="@{/register}">Registrati</a>
   </div>
 
-  <!-- se autenticato -->
+  <!-- se autenticato (USER o ADMIN) -->
   <div th:if="${userDetails != null}">
     <span th:text="'Ciao, ' + ${userDetails.username}">utente</span>
+    <a th:href="@{/logout}">Logout</a>
+  </div>
+
+  <!-- link di gestione visibili solo agli ADMIN -->
+  <div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
     <a th:href="@{/admin/tornei/new}">+ Torneo</a>
     <a th:href="@{/admin/squadre/new}">+ Squadra</a>
     <a th:href="@{/admin/giocatori/new}">+ Giocatore</a>
-    <a th:href="@{/admin/arbitri/new}">+ Arbitro</a>
     <a th:href="@{/admin/partite/new}">+ Partita</a>
-    <a th:href="@{/logout}">Logout</a>
   </div>
 </nav>
-
-
-
-<!-- link admin visibile solo agli ADMIN -->
-<div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
-  <a th:href="@{/admin/tornei/new}">Nuovo Torneo</a>
-</div>
-
-
-
 
 <!-- footer riusato in tutte le pagine -->
 <footer th:fragment="footer">

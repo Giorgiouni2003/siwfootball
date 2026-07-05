@@ -5,8 +5,10 @@ import it.uniroma3.siw.siwfootball.model.Utente;
 import it.uniroma3.siw.siwfootball.repository.UtenteRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class UtenteService {
 
     private final UtenteRepository utenteRepository;
@@ -18,6 +20,7 @@ public class UtenteService {
     }
 
 
+    @Transactional
     public Utente save(Utente utente) {
 
         // cripta la password prima di salvare
