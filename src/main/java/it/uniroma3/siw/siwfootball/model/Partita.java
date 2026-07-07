@@ -1,8 +1,8 @@
 package it.uniroma3.siw.siwfootball.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +27,16 @@ public class Partita {
     @Column(nullable = false)
     private String luogo;
 
-    //Gol segnati in casa
-    @NotNull
-    @Column(nullable = false)
+    //Gol segnati in casa (null finche' la partita non e' stata giocata)
+    @Min(0)
     private Integer goalsHome;
 
-    //Gol segnati in trasferta
-    @NotNull
-    @Column(nullable = false)
+    //Gol segnati in trasferta (null finche' la partita non e' stata giocata)
+    @Min(0)
     private Integer goalsAway;
 
     //in che stato si trova la partita? (SCHEDULED o PLAYED, vedi enum StatoPartita)
-    @NotNull
+    //viene impostato dal controller, non dal form
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatoPartita stato;

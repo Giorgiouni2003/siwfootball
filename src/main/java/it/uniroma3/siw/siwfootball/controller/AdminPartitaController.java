@@ -3,6 +3,7 @@ package it.uniroma3.siw.siwfootball.controller;
 import it.uniroma3.siw.siwfootball.model.Arbitro;
 import it.uniroma3.siw.siwfootball.model.Partita;
 import it.uniroma3.siw.siwfootball.model.Squadra;
+import it.uniroma3.siw.siwfootball.model.StatoPartita;
 import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.service.ArbitroService;
 import it.uniroma3.siw.siwfootball.service.PartitaService;
@@ -57,6 +58,15 @@ public class AdminPartitaController {
             return "admin/partite/new";
         }
 
+        // la squadra di casa e quella in trasferta devono essere diverse
+        if (squadraCasaId.equals(squadraTrasfertaId)) {
+            model.addAttribute("tornei", torneoService.findAll());
+            model.addAttribute("squadre", squadraService.findAll());
+            model.addAttribute("arbitri", arbitroService.findAll());
+            model.addAttribute("errore", "La squadra di casa e quella in trasferta devono essere diverse");
+            return "admin/partite/new";
+        }
+
         Torneo torneo = torneoService.findById(torneoId);
         Squadra squadraDiCasa = squadraService.findById(squadraCasaId);
         Squadra squadraDiTrasferta = squadraService.findById(squadraTrasfertaId);
@@ -66,6 +76,12 @@ public class AdminPartitaController {
         partita.setSquadraDiCasa(squadraDiCasa);
         partita.setSquadraDiTrasferta(squadraDiTrasferta);
         partita.setArbitro(arbitro);
+
+        // una partita appena registrata e' sempre "da giocare" e senza risultato
+        partita.setStato(StatoPartita.SCHEDULED);
+        partita.setGoalsHome(null);
+        partita.setGoalsAway(null);
+
         partitaService.save(partita);
         return "redirect:/tornei/" + torneoId;
     }
@@ -88,15 +104,32 @@ public class AdminPartitaController {
 
         Partita oldPartita = this.partitaService.findById(id);
 
-        if (partita.getStato() == null
-                || partita.getGoalsHome() == null || partita.getGoalsAway() == null) {
+        if (partita.getStato() == null) {
             model.addAttribute("partita", oldPartita);
-            model.addAttribute("errore", "Stato e risultato sono obbligatori");
+            model.addAttribute("errore", "Lo stato e' obbligatorio");
             return "admin/partite/risultato";
         }
 
-        oldPartita.setGoalsAway(partita.getGoalsAway());
-        oldPartita.setGoalsHome(partita.getGoalsHome());
+        if (partita.getStato() == StatoPartita.PLAYED) {
+
+            // per una partita giocata servono entrambi i gol, non negativi
+            if (partita.getGoalsHome() == null || partita.getGoalsAway() == null
+                    || partita.getGoalsHome() < 0 || partita.getGoalsAway() < 0) {
+                model.addAttribute("partita", oldPartita);
+                model.addAttribute("errore", "Per una partita giocata servono i gol di entrambe le squadre (non negativi)");
+                return "admin/partite/risultato";
+            }
+
+            oldPartita.setGoalsHome(partita.getGoalsHome());
+            oldPartita.setGoalsAway(partita.getGoalsAway());
+
+        } else {
+
+            // partita riportata a "da giocare": il risultato viene azzerato
+            oldPartita.setGoalsHome(null);
+            oldPartita.setGoalsAway(null);
+        }
+
         oldPartita.setStato(partita.getStato());
 
         partitaService.save(oldPartita);

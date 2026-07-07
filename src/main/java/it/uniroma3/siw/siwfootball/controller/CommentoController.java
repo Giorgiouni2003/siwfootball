@@ -8,6 +8,7 @@ import it.uniroma3.siw.siwfootball.service.PartitaService;
 import it.uniroma3.siw.siwfootball.service.UtenteService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,8 +36,12 @@ public class CommentoController {
     public String saveCommento(@PathVariable Long id, @Valid @ModelAttribute Commento commento,
                                 BindingResult bindingResult, Authentication authentication, Model model) {
 
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+        boolean isAdmin = false;
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            if (authority.getAuthority().equals("ADMIN")) {
+                isAdmin = true;
+            }
+        }
         if (isAdmin) {
             return "redirect:/partite/" + id;
         }
@@ -51,6 +56,9 @@ public class CommentoController {
 
         Utente utente = utenteService.findByUsername(authentication.getName());
 
+        // Spring copia la path variable {id} anche nel campo id del commento:
+        // va azzerata, altrimenti il save aggiornerebbe un commento esistente con lo stesso id
+        commento.setId(null);
         commento.setPartita(partita);
         commento.setUtente(utente);
 

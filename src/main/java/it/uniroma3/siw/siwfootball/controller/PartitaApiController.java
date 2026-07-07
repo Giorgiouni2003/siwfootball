@@ -2,7 +2,10 @@ package it.uniroma3.siw.siwfootball.controller;
 
 import it.uniroma3.siw.siwfootball.dto.OpzioneDTO;
 import it.uniroma3.siw.siwfootball.dto.PartitaDTO;
+import it.uniroma3.siw.siwfootball.model.Partita;
+import it.uniroma3.siw.siwfootball.model.Squadra;
 import it.uniroma3.siw.siwfootball.model.StatoPartita;
+import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.service.PartitaService;
 import it.uniroma3.siw.siwfootball.service.SquadraService;
 import it.uniroma3.siw.siwfootball.service.TorneoService;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,22 +39,29 @@ public class PartitaApiController {
             @RequestParam(required = false) Long squadraId,
             @RequestParam(required = false) StatoPartita stato) {
 
-        return this.partitaService.filtra(torneoId, squadraId, stato).stream()
-                .map(PartitaDTO::from)
-                .toList();
+        List<PartitaDTO> risultato = new ArrayList<>();
+        for (Partita partita : this.partitaService.filtra(torneoId, squadraId, stato)) {
+            risultato.add(PartitaDTO.from(partita));
+        }
+        return risultato;
     }
 
     // GET /api/partite/opzioni-filtro: dati per riempire le select di torneo e squadra
     @GetMapping("/api/partite/opzioni-filtro")
     public Map<String, List<OpzioneDTO>> opzioniFiltro() {
-        List<OpzioneDTO> tornei = this.torneoService.findAll().stream()
-                .map(t -> new OpzioneDTO(t.getId(), t.getNome()))
-                .toList();
+        List<OpzioneDTO> tornei = new ArrayList<>();
+        for (Torneo torneo : this.torneoService.findAll()) {
+            tornei.add(new OpzioneDTO(torneo.getId(), torneo.getNome()));
+        }
 
-        List<OpzioneDTO> squadre = this.squadraService.findAll().stream()
-                .map(s -> new OpzioneDTO(s.getId(), s.getNome()))
-                .toList();
+        List<OpzioneDTO> squadre = new ArrayList<>();
+        for (Squadra squadra : this.squadraService.findAll()) {
+            squadre.add(new OpzioneDTO(squadra.getId(), squadra.getNome()));
+        }
 
-        return Map.of("tornei", tornei, "squadre", squadre);
+        Map<String, List<OpzioneDTO>> opzioni = new HashMap<>();
+        opzioni.put("tornei", tornei);
+        opzioni.put("squadre", squadre);
+        return opzioni;
     }
 }

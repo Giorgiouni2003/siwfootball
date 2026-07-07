@@ -11,7 +11,10 @@
 <p th:text="'Data: ' + ${partita.data} + ' ' + ${partita.ora}">Data</p>
 <p th:text="'Luogo: ' + ${partita.luogo}">Luogo</p>
 <p>Stato: <span class="badge" th:text="${partita.stato.etichetta}">stato</span></p>
-<p th:text="'Risultato: ' + ${partita.goalsHome} + ' - ' + ${partita.goalsAway}">Risultato</p>
+<!-- il risultato esiste solo se la partita e' stata giocata -->
+<p th:if="${partita.stato.name() == 'PLAYED'}"
+   th:text="'Risultato: ' + ${partita.goalsHome} + ' - ' + ${partita.goalsAway}">Risultato</p>
+<p th:unless="${partita.stato.name() == 'PLAYED'}">Risultato: partita non ancora giocata</p>
 <p th:text="'Arbitro: ' + ${partita.arbitro.nome} + ' ' + ${partita.arbitro.cognome}">Arbitro</p>
 
 <div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">

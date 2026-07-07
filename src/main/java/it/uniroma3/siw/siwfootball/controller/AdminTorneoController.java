@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminTorneoController {
@@ -74,7 +75,23 @@ public class AdminTorneoController {
     }
 
 
+    //METODI PER GESTIRE LE SQUADRE PARTECIPANTI AL TORNEO
 
+    @PostMapping("/admin/tornei/{id}/squadre/add")
+    public String iscriviSquadra(@PathVariable Long id, @RequestParam("squadraId") Long squadraId) {
+
+        torneoService.iscriviSquadra(id, squadraId);
+
+        return "redirect:/tornei/" + id;
+    }
+
+    @PostMapping("/admin/tornei/{id}/squadre/{squadraId}/remove")
+    public String rimuoviSquadra(@PathVariable Long id, @PathVariable Long squadraId) {
+
+        torneoService.rimuoviSquadra(id, squadraId);
+
+        return "redirect:/tornei/" + id;
+    }
 
 
 }

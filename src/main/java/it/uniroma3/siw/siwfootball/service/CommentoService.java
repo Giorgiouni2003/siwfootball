@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,8 +25,11 @@ public class CommentoService {
     }
 
     public Commento findById(Long id) {
-        return this.commentoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Commento non trovato: " + id));
+        Optional<Commento> commento = this.commentoRepository.findById(id);
+        if (!commento.isPresent()) {
+            throw new EntityNotFoundException("Commento non trovato: " + id);
+        }
+        return commento.get();
     }
 
     @Transactional

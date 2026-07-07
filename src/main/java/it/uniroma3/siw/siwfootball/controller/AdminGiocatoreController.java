@@ -57,13 +57,17 @@ public class AdminGiocatoreController {
         Giocatore giocatore = giocatoreService.findById(id);
 
         model.addAttribute("giocatore", giocatore);
+        //serve al template per riempire la tendina di scelta della squadra
+        model.addAttribute("squadre", squadraService.findAll());
 
         return "admin/giocatori/edit";
     }
 
     @PostMapping("/admin/giocatori/{id}/edit")
     public String editGiocatore(@PathVariable Long id, @Valid @ModelAttribute Giocatore giocatore,
-                                 BindingResult bindingResult, Model model) {
+                                 BindingResult bindingResult,
+                                 @RequestParam("squadra.id") Long squadraId,
+                                 Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("squadre", squadraService.findAll());
@@ -71,8 +75,9 @@ public class AdminGiocatoreController {
         }
 
         Giocatore oldGiocatore = giocatoreService.findById(id);
+        Squadra squadra = squadraService.findById(squadraId);
 
-        oldGiocatore.setSquadra(giocatore.getSquadra());
+        oldGiocatore.setSquadra(squadra);
         oldGiocatore.setAltezza(giocatore.getAltezza());
         oldGiocatore.setCognome(giocatore.getCognome());
         oldGiocatore.setNome(giocatore.getNome());

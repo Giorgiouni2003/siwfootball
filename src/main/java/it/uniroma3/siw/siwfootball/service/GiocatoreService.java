@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,8 +21,11 @@ public class GiocatoreService {
     }
 
     public Giocatore findById(Long id) {
-        return this.giocatoreRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Giocatore non trovato: " + id));
+        Optional<Giocatore> giocatore = this.giocatoreRepository.findById(id);
+        if (!giocatore.isPresent()) {
+            throw new EntityNotFoundException("Giocatore non trovato: " + id);
+        }
+        return giocatore.get();
     }
 
     public List<Giocatore> findAll() {

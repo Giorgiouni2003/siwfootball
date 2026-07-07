@@ -7,6 +7,11 @@
 
 <h1>Registra nuova partita</h1>
 
+<!-- la partita viene creata nello stato "da giocare", senza risultato:
+     il risultato si inserisce dopo, dalla pagina della partita -->
+
+<div class="errore" th:if="${errore}" th:text="${errore}">Errore</div>
+
 <form th:action="@{/admin/partite/new}" th:object="${partita}" method="post">
   <div>
     <label for="data">Data:</label>
@@ -23,28 +28,6 @@
     <input type="text" id="luogo" th:field="*{luogo}"/>
     <span th:if="${#fields.hasErrors('luogo')}" th:errors="*{luogo}">Errore luogo</span>
   </div>
-  <div>
-    <label for="stato">Stato:</label>
-    <select id="stato" th:field="*{stato}">
-      <option th:each="s : ${T(it.uniroma3.siw.siwfootball.model.StatoPartita).values()}"
-              th:value="${s.name()}"
-              th:text="${s.etichetta}">
-        stato
-      </option>
-    </select>
-    <span th:if="${#fields.hasErrors('stato')}" th:errors="*{stato}">Errore stato</span>
-  </div>
-  <div>
-    <label for="goalsHome">Gol casa:</label>
-    <input type="number" id="goalsHome" th:field="*{goalsHome}"/>
-    <span th:if="${#fields.hasErrors('goalsHome')}" th:errors="*{goalsHome}">Errore gol casa</span>
-  </div>
-  <div>
-    <label for="goalsAway">Gol trasferta:</label>
-    <input type="number" id="goalsAway" th:field="*{goalsAway}"/>
-    <span th:if="${#fields.hasErrors('goalsAway')}" th:errors="*{goalsAway}">Errore gol trasferta</span>
-  </div>
-
   <!-- dropdown torneo -->
   <div>
     <label for="torneo">Torneo:</label>

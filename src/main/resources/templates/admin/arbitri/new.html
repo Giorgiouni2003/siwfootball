@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('Nuovo Arbitro')}"></head>
+<body>
+
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+<h1>Crea nuovo arbitro</h1>
+
+<form th:action="@{/admin/arbitri/new}" th:object="${arbitro}" method="post">
+  <div>
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" th:field="*{nome}"/>
+    <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Errore nome</span>
+  </div>
+  <div>
+    <label for="cognome">Cognome:</label>
+    <input type="text" id="cognome" th:field="*{cognome}"/>
+    <span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}">Errore cognome</span>
+  </div>
+  <div>
+    <label for="codiceArbitrale">Codice arbitrale:</label>
+    <input type="text" id="codiceArbitrale" th:field="*{codiceArbitrale}"/>
+    <span th:if="${#fields.hasErrors('codiceArbitrale')}" th:errors="*{codiceArbitrale}">Errore codice</span>
+  </div>
+  <button type="submit">Salva</button>
+</form>
+
+<!-- elenco degli arbitri gia' presenti, utile per non inserire doppioni -->
+<h2>Arbitri registrati</h2>
+<div th:if="${arbitri.isEmpty()}">Nessun arbitro registrato</div>
+<ul>
+  <li th:each="a : ${arbitri}"
+      th:text="${a.nome} + ' ' + ${a.cognome} + ' (' + ${a.codiceArbitrale} + ')'">
+    arbitro
+  </li>
+</ul>
+
+<a th:href="@{/}">Annulla</a>
+
+<footer th:replace="~{fragments/base :: footer}"></footer>
+
+</body>
+</html>

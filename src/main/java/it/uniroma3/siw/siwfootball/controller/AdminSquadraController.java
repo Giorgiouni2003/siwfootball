@@ -72,13 +72,11 @@ public class AdminSquadraController {
 
 
     //METODO PER ELIMINARE UNA SQUADRA
+    //il service si occupa anche di eliminare partite e iscrizioni ai tornei collegate
     @PostMapping("/admin/squadre/{id}/delete")
     public String deleteSquadra(@PathVariable Long id) {
 
-
-        Squadra oldSquadra = squadraService.findById(id);
-
-        squadraService.delete(oldSquadra);
+        squadraService.deleteById(id);
 
         return "redirect:/squadre";
     }

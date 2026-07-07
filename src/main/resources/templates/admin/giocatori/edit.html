@@ -35,13 +35,14 @@
     <span th:if="${#fields.hasErrors('altezza')}" th:errors="*{altezza}">Errore altezza</span>
   </div>
 
-  <!-- menu a tendina per scegliere la squadra -->
+  <!-- menu a tendina per scegliere la squadra (preselezionata quella attuale) -->
   <div>
     <label for="squadra">Squadra:</label>
     <select id="squadra" name="squadra.id">
       <option th:each="squadra : ${squadre}"
               th:value="${squadra.id}"
-              th:text="${squadra.nome}">
+              th:text="${squadra.nome}"
+              th:selected="${giocatore.squadra != null and squadra.id == giocatore.squadra.id}">
         nome squadra
       </option>
     </select>
@@ -50,7 +51,7 @@
   <button type="submit">Salva</button>
 </form>
 
-<a th:href="@{'/giocatori/' + ${giocatore.id}}">Annulla</a>
+<a th:href="@{'/squadre/' + ${giocatore.squadra.id}}">Annulla</a>
 
 <footer th:replace="~{fragments/base :: footer}"></footer>
 

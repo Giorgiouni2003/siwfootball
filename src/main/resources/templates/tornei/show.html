@@ -25,8 +25,31 @@
        th:text="${squadra.nome} + ' - ' + ${squadra.citta}">
       nome squadra
     </a>
+    <!-- l'admin puo' togliere una squadra dal torneo -->
+    <form th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}"
+          th:action="@{'/admin/tornei/' + ${torneo.id} + '/squadre/' + ${squadra.id} + '/remove'}"
+          method="post" style="display:inline">
+      <button type="submit">Rimuovi</button>
+    </form>
   </li>
 </ul>
+
+<!-- l'admin puo' iscrivere al torneo una squadra non ancora iscritta -->
+<div th:if="${userDetails != null and #authorization.expression('hasAuthority(''ADMIN'')')}">
+  <h3>Iscrivi una squadra</h3>
+  <div th:if="${squadreDisponibili.isEmpty()}">Non ci sono altre squadre da iscrivere</div>
+  <form th:unless="${squadreDisponibili.isEmpty()}"
+        th:action="@{'/admin/tornei/' + ${torneo.id} + '/squadre/add'}" method="post">
+    <select name="squadraId">
+      <option th:each="squadra : ${squadreDisponibili}"
+              th:value="${squadra.id}"
+              th:text="${squadra.nome} + ' - ' + ${squadra.citta}">
+        squadra
+      </option>
+    </select>
+    <button type="submit">Iscrivi</button>
+  </form>
+</div>
 
 <!-- calendario partite -->
 <h2>Calendario</h2>
