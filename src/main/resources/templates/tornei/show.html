@@ -19,6 +19,9 @@
 
 <h2>Squadre partecipanti</h2>
 <div th:if="${torneo.squadre.isEmpty()}">Nessuna squadra registrata</div>
+
+
+
 <ul>
   <li th:each="squadra : ${torneo.squadre}">
     <a th:href="@{'/squadre/' + ${squadra.id}}"

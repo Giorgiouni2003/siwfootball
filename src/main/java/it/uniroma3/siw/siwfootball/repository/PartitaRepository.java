@@ -13,14 +13,18 @@ import java.util.List;
 
 public interface PartitaRepository extends CrudRepository<Partita, Long> {
 
-    List<Partita> findByTorneo(Torneo torneo);
+
 
     List<Partita> findBySquadraDiCasaOrSquadraDiTrasferta(Squadra squadraDiCasa, Squadra squadraDiTrasferta);
 
     List<Partita> findByArbitro(Arbitro arbitro);
 
 
+    //METODO USATO ANCHE PER IL TEST CASO LAZY/NAIVE
+    List<Partita> findByTorneo(Torneo torneo);
 
+
+    //METODO USATO ANCHE PER IL TEST CASO JOIN FETCH
     @Query("SELECT p FROM Partita p " +
             "JOIN FETCH p.squadraDiCasa " +
             "JOIN FETCH p.squadraDiTrasferta " +

@@ -77,4 +77,9 @@ public class SquadraService {
         // 3. elimina la squadra
         this.squadraRepository.delete(squadra);
     }
+
+
+
+
+
 }
