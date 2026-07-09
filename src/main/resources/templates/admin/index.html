@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('Area Admin')}"></head>
+<body>
+
+<nav th:replace="~{fragments/base :: navbar}"></nav>
+
+<h1>Area Admin</h1>
+
+<ul>
+  <li><a th:href="@{/admin/tornei/new}">Crea torneo</a></li>
+  <li><a th:href="@{/admin/squadre/new}">Crea squadra</a></li>
+  <li><a th:href="@{/admin/giocatori/new}">Crea giocatore</a></li>
+  <li><a th:href="@{/admin/partite/new}">Crea partita</a></li>
+  <li><a th:href="@{/admin/arbitri/new}">Crea arbitro</a></li>
+</ul>
+
+<footer th:replace="~{fragments/base :: footer}"></footer>
+
+</body>
+</html>

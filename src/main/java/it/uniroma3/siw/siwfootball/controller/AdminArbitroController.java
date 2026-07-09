@@ -19,6 +19,10 @@ public class AdminArbitroController {
         this.arbitroService = arbitroService;
     }
 
+
+
+
+
     //METODI PER CREARE UN NUOVO ARBITRO
     //senza arbitri non si possono registrare partite, quindi serve una pagina per inserirli
 
@@ -39,6 +43,10 @@ public class AdminArbitroController {
         }
 
         arbitroService.save(arbitro);
+        // dopo il salvataggio, nuova richiesta GET allo stesso form (per inserirne subito un altro)
         return "redirect:/admin/arbitri/new";
     }
+
+
+
 }

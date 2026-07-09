@@ -35,11 +35,17 @@ public class AdminTorneoController {
     @PostMapping("/admin/tornei/new")
     public String newTorneo(@Valid @ModelAttribute Torneo torneo, BindingResult bindingResult) {
 
+        // il torneo non deve essere gia' presente (stesso nome nello stesso anno)
+        if (this.torneoService.findByNomeAndAnno(torneo.getNome(), torneo.getAnno()) != null) {
+            bindingResult.rejectValue("nome", "duplicato", "Torneo già esistente per questo anno");
+        }
+
         if (bindingResult.hasErrors()) {
             return "admin/tornei/new";
         }
 
         torneoService.save(torneo);
+        // dopo il salvataggio, nuova richiesta GET alla pagina del torneo appena creato
         return "redirect:/tornei/" + torneo.getId();
     }
 
@@ -71,6 +77,7 @@ public class AdminTorneoController {
 
         torneoService.save(oldTorneo);
 
+        // dopo la modifica, nuova richiesta GET alla pagina del torneo aggiornato
         return "redirect:/tornei/" + oldTorneo.getId();
     }
 
@@ -82,6 +89,7 @@ public class AdminTorneoController {
 
         torneoService.iscriviSquadra(id, squadraId);
 
+        // dopo l'iscrizione, nuova richiesta GET alla pagina del torneo (con la squadra aggiunta)
         return "redirect:/tornei/" + id;
     }
 
@@ -90,6 +98,7 @@ public class AdminTorneoController {
 
         torneoService.rimuoviSquadra(id, squadraId);
 
+        // dopo la rimozione, nuova richiesta GET alla pagina del torneo (senza quella squadra)
         return "redirect:/tornei/" + id;
     }
 

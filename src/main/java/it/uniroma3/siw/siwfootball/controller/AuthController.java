@@ -46,12 +46,14 @@ public class AuthController {
         }
 
         this.utenteService.save(utente);
+        // dopo la registrazione, nuova richiesta GET alla pagina di login
         return "redirect:/login";
     }
 
     // dopo il login, redirect in base al ruolo
     @GetMapping("/success")
     public String success() {
+        // nuova richiesta GET alla home dopo il login
         return "redirect:/";
     }
 }

@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "siwfootball",
-      "runtimeExecutable": "./gradlew",
-      "runtimeArgs": ["bootRun"],
+      "runtimeExecutable": "./mvnw",
+      "runtimeArgs": ["spring-boot:run"],
       "port": 8080
     }
   ]

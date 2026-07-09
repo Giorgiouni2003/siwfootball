@@ -9,6 +9,8 @@ import java.util.List;
 @Entity
 public class Utente {
 
+    public static final String ADMIN_ROLE = "ADMIN";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

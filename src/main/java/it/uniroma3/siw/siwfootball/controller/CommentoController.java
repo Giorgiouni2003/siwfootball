@@ -43,6 +43,7 @@ public class CommentoController {
             }
         }
         if (isAdmin) {
+            // l'admin non puo' commentare: nuova richiesta GET alla pagina della partita, senza salvare nulla
             return "redirect:/partite/" + id;
         }
 
@@ -63,6 +64,7 @@ public class CommentoController {
         commento.setUtente(utente);
 
         commentoService.save(commento);
+        // dopo il salvataggio, nuova richiesta GET alla pagina della partita (per evitare doppio invio con F5)
         return "redirect:/partite/" + id;
     }
 
@@ -81,6 +83,7 @@ public class CommentoController {
             return "commenti/edit";
         }
 
+        // utente diverso dall'autore: niente form di modifica, nuova richiesta GET alla pagina della partita
         return "redirect:/partite/" + commento.getPartita().getId();
 
 
@@ -99,6 +102,7 @@ public class CommentoController {
 
         //verifico che l'utente loggato sia lo stesso che ha scritto il commento
         if(!esistente.getUtente().getUsername().equals(utente.getUsername())){
+            // utente diverso dall'autore: nuova richiesta GET alla pagina della partita, senza modificare nulla
             return "redirect:/partite/" + esistente.getPartita().getId();
         }
 
@@ -110,6 +114,7 @@ public class CommentoController {
         esistente.setTesto(commento.getTesto());
         commentoService.save(esistente);
 
+        // dopo la modifica, nuova richiesta GET alla pagina della partita (per evitare doppio invio con F5)
         return "redirect:/partite/" + esistente.getPartita().getId();
 
     }

@@ -62,6 +62,10 @@ public class PartitaService {
         return partite;
     }
 
+
+
+
+
     // filtra le partite in memoria in base ai parametri passati (tutti opzionali, null = "nessun filtro")
     public List<Partita> filtra(Long torneoId, Long squadraId, StatoPartita stato) {
         List<Partita> risultato = new ArrayList<>();
@@ -103,7 +107,14 @@ public class PartitaService {
     }
 
 
+
+
+
+
+    //Per il caso d'uso della classifica del torneo
     public List<RigaClassifica> getClassifica(Torneo torneo) {
+
+
         List<Partita> partiteGiocate = this.partitaRepository.findPartiteGiocateByTorneo(torneo, StatoPartita.PLAYED);
 
         Map<Squadra, RigaClassifica> mappaClassifica = new HashMap<>();

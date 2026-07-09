@@ -21,6 +21,10 @@ public class AdminSquadraController {
         this.squadraService = squadraService;
     }
 
+
+
+
+
     //METODI PER CREARE UNA NUOVA SQUADRA
     @GetMapping("/admin/squadre/new")
     public String newSquadra(Model model) {
@@ -31,13 +35,22 @@ public class AdminSquadraController {
     @PostMapping("/admin/squadre/new")
     public String saveSquadra(@Valid @ModelAttribute Squadra squadra, BindingResult bindingResult) {
 
+        // la squadra non deve essere gia' presente
+        if (this.squadraService.findByNome(squadra.getNome()) != null) {
+            bindingResult.rejectValue("nome", "duplicato", "Squadra già esistente");
+        }
+
         if (bindingResult.hasErrors()) {
             return "admin/squadre/new";
         }
 
         squadraService.save(squadra);
+        // dopo il salvataggio, nuova richiesta GET all'elenco squadre
         return "redirect:/squadre";
     }
+
+
+
 
 
     //METODI PER MODIFICARE UNA SQUADRA
@@ -67,8 +80,11 @@ public class AdminSquadraController {
 
         squadraService.save(oldSquadra);
 
+        // dopo la modifica, nuova richiesta GET alla pagina della squadra aggiornata
         return "redirect:/squadre/" + oldSquadra.getId();
     }
+
+
 
 
     //METODO PER ELIMINARE UNA SQUADRA
@@ -78,6 +94,10 @@ public class AdminSquadraController {
 
         squadraService.deleteById(id);
 
+        // dopo l'eliminazione, nuova richiesta GET all'elenco squadre
         return "redirect:/squadre";
     }
+
+
+
 }

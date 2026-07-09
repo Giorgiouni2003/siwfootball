@@ -29,6 +29,8 @@ public class TorneoController {
         this.squadraService = squadraService;
     }
 
+
+
     // UC1 [PUBLIC] - Visualizza elenco tornei con conteggio totale squadre nel sistema
     @GetMapping("/tornei")
     public String list(Model model) {
@@ -36,6 +38,9 @@ public class TorneoController {
         model.addAttribute("tornei", tornei);
         return "tornei/list";
     }
+
+
+
 
     // UC2 [PUBLIC] - Visualizza dettaglio torneo: squadre partecipanti (+ conteggio),
     // calendario partite, classifica (MULTI-ENTITÀ: Torneo+Squadra+Partita)

@@ -33,6 +33,11 @@ public class AdminPartitaController {
         this.arbitroService = arbitroService;
     }
 
+
+
+
+
+
     @GetMapping("/admin/partite/new")
     public String newPartita(Model model) {
         model.addAttribute("partita", new Partita());
@@ -83,8 +88,11 @@ public class AdminPartitaController {
         partita.setGoalsAway(null);
 
         partitaService.save(partita);
+        // dopo il salvataggio, nuova richiesta GET alla pagina del torneo (con la nuova partita in elenco)
         return "redirect:/tornei/" + torneoId;
     }
+
+
 
 
 
@@ -134,8 +142,12 @@ public class AdminPartitaController {
 
         partitaService.save(oldPartita);
 
+        // dopo l'aggiornamento del risultato, nuova richiesta GET alla pagina della partita
         return "redirect:/partite/" + oldPartita.getId();
     }
+
+
+
 
     //METODO PER ELIMINARE UNA PARTITA
     @PostMapping("/admin/partite/{id}/delete")
@@ -146,6 +158,9 @@ public class AdminPartitaController {
 
         partitaService.delete(partita);
 
+        // dopo l'eliminazione, nuova richiesta GET all'elenco partite
         return "redirect:/partite";
     }
+
+
 }

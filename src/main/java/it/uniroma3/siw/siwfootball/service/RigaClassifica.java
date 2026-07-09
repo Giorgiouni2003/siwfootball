@@ -2,6 +2,8 @@ package it.uniroma3.siw.siwfootball.service;
 
 import it.uniroma3.siw.siwfootball.model.Squadra;
 
+// rappresenta una riga della classifica di un torneo: non e' salvata sul db,
+// viene calcolata dal service a partire dai risultati delle partite giocate
 public class RigaClassifica {
 
     private Squadra squadra;
@@ -16,6 +18,8 @@ public class RigaClassifica {
         this.squadra = squadra;
     }
 
+
+    
     public Squadra getSquadra() {
         return squadra;
     }

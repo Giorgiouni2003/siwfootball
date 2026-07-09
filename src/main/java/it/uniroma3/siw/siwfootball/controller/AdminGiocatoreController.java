@@ -45,6 +45,7 @@ public class AdminGiocatoreController {
         Squadra squadra = squadraService.findById(squadraId);
         giocatore.setSquadra(squadra);
         giocatoreService.save(giocatore);
+        // dopo il salvataggio, nuova richiesta GET all'elenco squadre
         return "redirect:/squadre";
     }
 
@@ -86,6 +87,7 @@ public class AdminGiocatoreController {
 
         giocatoreService.save(oldGiocatore);
 
+        // dopo la modifica, nuova richiesta GET alla pagina della squadra del giocatore
         return "redirect:/squadre/" + oldGiocatore.getSquadra().getId();
     }
 }

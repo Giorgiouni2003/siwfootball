@@ -24,7 +24,7 @@ public interface PartitaRepository extends CrudRepository<Partita, Long> {
     List<Partita> findByTorneo(Torneo torneo);
 
 
-    //METODO USATO ANCHE PER IL TEST CASO JOIN FETCH
+    //METODO USATO SIA PER IL CASO D'USO DELLA CLASSIFICA DI UN TORNEO E ANCHE PER IL TEST CASO JOIN FETCH
     @Query("SELECT p FROM Partita p " +
             "JOIN FETCH p.squadraDiCasa " +
             "JOIN FETCH p.squadraDiTrasferta " +
