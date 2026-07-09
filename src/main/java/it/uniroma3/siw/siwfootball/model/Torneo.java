@@ -25,7 +25,7 @@ public class Torneo {
     @Column(nullable = false)
     private String descrizione;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Squadra> squadre = new ArrayList<>();
 
     public Long getId() {

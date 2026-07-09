@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "bypassPermissions",
     "allow": [
       "Bash(./gradlew compileJava -q)",
       "Bash(timeout 25 ./gradlew bootRun --console=plain)",
@@ -76,7 +77,9 @@
       "Bash(./mvnw -q compile)",
       "Bash(./mvnw compile *)",
       "Bash(find ~/.m2/repository/org/springframework/boot -maxdepth 1 -iname \"*webmvc*\" -o -iname \"*test*\" 2>/dev/null | grep -E \"webmvc|starter-test|jpa-test|security-test|thymeleaf-test|validation-test\" )",
-      "Bash(./mvnw -q -DskipTests package)"
+      "Bash(./mvnw -q -DskipTests package)",
+      "Skill(update-config)",
+      "Skill(update-config:*)"
     ]
   }
 }

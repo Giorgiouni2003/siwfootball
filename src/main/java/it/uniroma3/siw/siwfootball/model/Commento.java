@@ -14,11 +14,11 @@ public class Commento {
     @Column(nullable = false)
     private String testo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Utente utente;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Partita partita;
 

@@ -25,10 +25,10 @@ public class Squadra {
     @Column(nullable = false)
     private String citta;
 
-    @OneToMany(mappedBy = "squadra", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "squadra", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Giocatore> giocatori = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "squadre")
+    @ManyToMany(mappedBy = "squadre", fetch = FetchType.LAZY)
     private List<Torneo> tornei = new ArrayList<>();
 
     public Long getId() {

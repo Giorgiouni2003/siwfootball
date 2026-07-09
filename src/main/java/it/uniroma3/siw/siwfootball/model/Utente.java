@@ -25,7 +25,7 @@ public class Utente {
     private String ruolo;
 
 
-    @OneToMany(mappedBy = "utente", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "utente", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Commento> commenti = new ArrayList<>();
 
     public Long getId() {
