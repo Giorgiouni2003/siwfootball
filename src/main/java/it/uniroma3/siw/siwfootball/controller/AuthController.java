@@ -3,6 +3,7 @@ package it.uniroma3.siw.siwfootball.controller;
 import it.uniroma3.siw.siwfootball.model.Utente;
 import it.uniroma3.siw.siwfootball.service.UtenteService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,11 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthController {
 
-    private final UtenteService utenteService;
-
-    public AuthController(UtenteService utenteService) {
-        this.utenteService = utenteService;
-    }
+    @Autowired
+    private UtenteService utenteService;
 
     // mostra la pagina di login
     @GetMapping("/login")

@@ -7,6 +7,7 @@ import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.repository.PartitaRepository;
 import it.uniroma3.siw.siwfootball.repository.SquadraRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +19,11 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class SquadraService {
 
-    private final SquadraRepository squadraRepository;
-    private final PartitaRepository partitaRepository;
+    @Autowired
+    private SquadraRepository squadraRepository;
 
-    public SquadraService(SquadraRepository squadraRepository, PartitaRepository partitaRepository) {
-        this.squadraRepository = squadraRepository;
-        this.partitaRepository = partitaRepository;
-    }
+    @Autowired
+    private PartitaRepository partitaRepository;
 
     //serve per il caso d'uso "dettaglio squadra"
     public Squadra findById(Long id) {

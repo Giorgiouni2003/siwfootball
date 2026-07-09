@@ -3,6 +3,7 @@ package it.uniroma3.siw.siwfootball.service;
 import it.uniroma3.siw.siwfootball.model.Arbitro;
 import it.uniroma3.siw.siwfootball.repository.ArbitroRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,11 +14,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class ArbitroService {
 
-    private final ArbitroRepository arbitroRepository;
-
-    public ArbitroService(ArbitroRepository arbitroRepository) {
-        this.arbitroRepository = arbitroRepository;
-    }
+    @Autowired
+    private ArbitroRepository arbitroRepository;
 
     public Arbitro findById(Long id) {
         Optional<Arbitro> arbitro = this.arbitroRepository.findById(id);

@@ -3,6 +3,7 @@ package it.uniroma3.siw.siwfootball.service;
 import it.uniroma3.siw.siwfootball.model.Commento;
 import it.uniroma3.siw.siwfootball.repository.CommentoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,11 +14,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class CommentoService {
 
-    private final CommentoRepository commentoRepository;
-
-    public CommentoService(CommentoRepository commentoRepository) {
-        this.commentoRepository = commentoRepository;
-    }
+    @Autowired
+    private CommentoRepository commentoRepository;
 
 
     public List<Commento> findAll() {

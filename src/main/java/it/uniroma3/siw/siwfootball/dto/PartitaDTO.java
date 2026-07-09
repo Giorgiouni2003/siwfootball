@@ -1,8 +1,10 @@
 package it.uniroma3.siw.siwfootball.dto;
 
 import it.uniroma3.siw.siwfootball.model.Partita;
+import lombok.Getter;
 
 // DTO = versione "leggera" della Partita, solo i campi che servono al front-end React
+@Getter
 public class PartitaDTO {
 
     private Long id;
@@ -38,61 +40,5 @@ public class PartitaDTO {
         dto.squadraDiTrasfertaId = p.getSquadraDiTrasferta().getId();
         dto.squadraDiTrasfertaNome = p.getSquadraDiTrasferta().getNome();
         return dto;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public String getOra() {
-        return ora;
-    }
-
-    public String getLuogo() {
-        return luogo;
-    }
-
-    public Integer getGoalsHome() {
-        return goalsHome;
-    }
-
-    public Integer getGoalsAway() {
-        return goalsAway;
-    }
-
-    public String getStato() {
-        return stato;
-    }
-
-    public String getEtichettaStato() {
-        return etichettaStato;
-    }
-
-    public Long getTorneoId() {
-        return torneoId;
-    }
-
-    public String getTorneoNome() {
-        return torneoNome;
-    }
-
-    public Long getSquadraDiCasaId() {
-        return squadraDiCasaId;
-    }
-
-    public String getSquadraDiCasaNome() {
-        return squadraDiCasaNome;
-    }
-
-    public Long getSquadraDiTrasfertaId() {
-        return squadraDiTrasfertaId;
-    }
-
-    public String getSquadraDiTrasfertaNome() {
-        return squadraDiTrasfertaNome;
     }
 }

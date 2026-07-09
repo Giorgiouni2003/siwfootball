@@ -9,6 +9,7 @@ import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.service.PartitaService;
 import it.uniroma3.siw.siwfootball.service.SquadraService;
 import it.uniroma3.siw.siwfootball.service.TorneoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,15 +25,14 @@ import java.util.Map;
 @RestController
 public class PartitaApiController {
 
-    private final PartitaService partitaService;
-    private final TorneoService torneoService;
-    private final SquadraService squadraService;
+    @Autowired
+    private PartitaService partitaService;
 
-    public PartitaApiController(PartitaService partitaService, TorneoService torneoService, SquadraService squadraService) {
-        this.partitaService = partitaService;
-        this.torneoService = torneoService;
-        this.squadraService = squadraService;
-    }
+    @Autowired
+    private TorneoService torneoService;
+
+    @Autowired
+    private SquadraService squadraService;
 
 
 

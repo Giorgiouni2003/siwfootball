@@ -10,6 +10,7 @@ import it.uniroma3.siw.siwfootball.service.PartitaService;
 import it.uniroma3.siw.siwfootball.service.SquadraService;
 import it.uniroma3.siw.siwfootball.service.TorneoService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,20 +19,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class AdminPartitaController {
 
+    @Autowired
     private PartitaService partitaService;
-    private TorneoService torneoService;
-    private SquadraService squadraService;
-    private ArbitroService arbitroService;
 
-    public AdminPartitaController(PartitaService partitaService,
-                                  TorneoService torneoService,
-                                  SquadraService squadraService,
-                                  ArbitroService arbitroService) {
-        this.partitaService = partitaService;
-        this.torneoService = torneoService;
-        this.squadraService = squadraService;
-        this.arbitroService = arbitroService;
-    }
+    @Autowired
+    private TorneoService torneoService;
+
+    @Autowired
+    private SquadraService squadraService;
+
+    @Autowired
+    private ArbitroService arbitroService;
 
 
 

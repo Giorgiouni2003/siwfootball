@@ -1,21 +1,13 @@
 package it.uniroma3.siw.siwfootball.dto;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 // DTO generico "id + nome", usato per popolare le select dei filtri (tornei e squadre)
+@Getter
+@RequiredArgsConstructor
 public class OpzioneDTO {
 
-    private Long id;
-    private String nome;
-
-    public OpzioneDTO(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
+    private final Long id;
+    private final String nome;
 }

@@ -5,6 +5,7 @@ import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.repository.SquadraRepository;
 import it.uniroma3.siw.siwfootball.repository.TorneoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +16,11 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class TorneoService {
 
-    private final TorneoRepository torneoRepository;
-    private final SquadraRepository squadraRepository;
+    @Autowired
+    private TorneoRepository torneoRepository;
 
-    public TorneoService(TorneoRepository torneoRepository, SquadraRepository squadraRepository) {
-        this.torneoRepository = torneoRepository;
-        this.squadraRepository = squadraRepository;
-    }
+    @Autowired
+    private SquadraRepository squadraRepository;
 
     public Torneo findById(Long id) {
         Optional<Torneo> torneo = this.torneoRepository.findById(id);

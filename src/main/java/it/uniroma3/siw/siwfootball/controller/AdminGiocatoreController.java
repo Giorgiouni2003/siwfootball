@@ -5,6 +5,7 @@ import it.uniroma3.siw.siwfootball.model.Squadra;
 import it.uniroma3.siw.siwfootball.service.GiocatoreService;
 import it.uniroma3.siw.siwfootball.service.SquadraService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,14 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class AdminGiocatoreController {
 
+    @Autowired
     private GiocatoreService giocatoreService;
-    private SquadraService squadraService;
 
-    public AdminGiocatoreController(GiocatoreService giocatoreService,
-                                    SquadraService squadraService) {
-        this.giocatoreService = giocatoreService;
-        this.squadraService = squadraService;
-    }
+    @Autowired
+    private SquadraService squadraService;
 
     //METODI PER INSERIRE UN NUOVO GIOCATORE
 

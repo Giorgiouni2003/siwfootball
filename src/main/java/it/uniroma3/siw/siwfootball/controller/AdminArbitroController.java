@@ -3,6 +3,7 @@ package it.uniroma3.siw.siwfootball.controller;
 import it.uniroma3.siw.siwfootball.model.Arbitro;
 import it.uniroma3.siw.siwfootball.service.ArbitroService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,11 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AdminArbitroController {
 
+    @Autowired
     private ArbitroService arbitroService;
-
-    public AdminArbitroController(ArbitroService arbitroService) {
-        this.arbitroService = arbitroService;
-    }
 
 
 

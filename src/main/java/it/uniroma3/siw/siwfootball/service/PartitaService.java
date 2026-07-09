@@ -8,6 +8,7 @@ import it.uniroma3.siw.siwfootball.model.StatoPartita;
 import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.repository.PartitaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,12 +24,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PartitaService {
 
-    private final PartitaRepository partitaRepository;
-
-    public PartitaService(PartitaRepository partitaRepository) {
-
-        this.partitaRepository = partitaRepository;
-    }
+    @Autowired
+    private PartitaRepository partitaRepository;
 
 
     public Partita findById(Long id) {

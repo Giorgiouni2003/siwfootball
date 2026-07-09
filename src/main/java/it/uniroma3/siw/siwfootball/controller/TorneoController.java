@@ -5,6 +5,7 @@ import it.uniroma3.siw.siwfootball.model.Torneo;
 import it.uniroma3.siw.siwfootball.service.PartitaService;
 import it.uniroma3.siw.siwfootball.service.SquadraService;
 import it.uniroma3.siw.siwfootball.service.TorneoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +17,14 @@ import java.util.List;
 @Controller
 public class TorneoController {
 
+    @Autowired
     private TorneoService torneoService;
+
+    @Autowired
     private PartitaService partitaService;
+
+    @Autowired
     private SquadraService squadraService;
-
-
-
-    public TorneoController(TorneoService torneoService, PartitaService partitaService,
-                            SquadraService squadraService) {
-        this.torneoService = torneoService;
-        this.partitaService = partitaService;
-        this.squadraService = squadraService;
-    }
 
 
 

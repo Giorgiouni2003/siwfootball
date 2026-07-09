@@ -3,16 +3,22 @@ package it.uniroma3.siw.siwfootball.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Partita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotBlank
@@ -60,110 +66,4 @@ public class Partita {
 
     @OneToMany(mappedBy = "partita", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Commento> commenti = new ArrayList<>();
-
-
-
-
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getOra() {
-        return ora;
-    }
-
-    public void setOra(String ora) {
-        this.ora = ora;
-    }
-
-    public String getLuogo() {
-        return luogo;
-    }
-
-    public void setLuogo(String luogo) {
-        this.luogo = luogo;
-    }
-
-    public Integer getGoalsHome() {
-        return goalsHome;
-    }
-
-    public void setGoalsHome(Integer goalsHome) {
-        this.goalsHome = goalsHome;
-    }
-
-    public Integer getGoalsAway() {
-        return goalsAway;
-    }
-
-    public void setGoalsAway(Integer goalsAway) {
-        this.goalsAway = goalsAway;
-    }
-
-    public StatoPartita getStato() {
-        return stato;
-    }
-
-    public void setStato(StatoPartita stato) {
-        this.stato = stato;
-    }
-
-    public Torneo getTorneo() {
-        return torneo;
-    }
-
-    public void setTorneo(Torneo torneo) {
-        this.torneo = torneo;
-    }
-
-    public Squadra getSquadraDiCasa() {
-        return squadraDiCasa;
-    }
-
-    public void setSquadraDiCasa(Squadra squadraDiCasa) {
-        this.squadraDiCasa = squadraDiCasa;
-    }
-
-    public Squadra getSquadraDiTrasferta() {
-        return squadraDiTrasferta;
-    }
-
-    public void setSquadraDiTrasferta(Squadra squadraDiTrasferta) {
-        this.squadraDiTrasferta = squadraDiTrasferta;
-    }
-
-    public Arbitro getArbitro() {
-        return arbitro;
-    }
-
-    public void setArbitro(Arbitro arbitro) {
-        this.arbitro = arbitro;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Partita partita = (Partita) o;
-        return id != null && id.equals(partita.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 }

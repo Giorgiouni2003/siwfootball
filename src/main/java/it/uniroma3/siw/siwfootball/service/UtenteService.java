@@ -3,6 +3,7 @@ package it.uniroma3.siw.siwfootball.service;
 
 import it.uniroma3.siw.siwfootball.model.Utente;
 import it.uniroma3.siw.siwfootball.repository.UtenteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UtenteService {
 
-    private final UtenteRepository utenteRepository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UtenteRepository utenteRepository;
 
-    public UtenteService(UtenteRepository utenteRepository, PasswordEncoder passwordEncoder) {
-        this.utenteRepository = utenteRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Transactional

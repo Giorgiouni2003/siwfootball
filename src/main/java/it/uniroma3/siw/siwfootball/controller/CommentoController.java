@@ -7,6 +7,7 @@ import it.uniroma3.siw.siwfootball.service.CommentoService;
 import it.uniroma3.siw.siwfootball.service.PartitaService;
 import it.uniroma3.siw.siwfootball.service.UtenteService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -20,17 +21,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class CommentoController {
 
+    @Autowired
     private CommentoService commentoService;
-    private PartitaService partitaService;
-    private UtenteService utenteService;
 
-    public CommentoController(CommentoService commentoService,
-                               PartitaService partitaService,
-                               UtenteService utenteService) {
-        this.commentoService = commentoService;
-        this.partitaService = partitaService;
-        this.utenteService = utenteService;
-    }
+    @Autowired
+    private PartitaService partitaService;
+
+    @Autowired
+    private UtenteService utenteService;
 
     @PostMapping("/partite/{id}/commenti")
     public String saveCommento(@PathVariable Long id, @Valid @ModelAttribute Commento commento,

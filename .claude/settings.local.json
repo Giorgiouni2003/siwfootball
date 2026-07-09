@@ -130,7 +130,15 @@
       "Bash(curl -s -o /dev/null -w \"http_code=%{http_code} redirect=%{redirect_url}\\\\n\" http://localhost:8080/admin)",
       "Bash(curl -s -c /private/tmp/claude-501/-Users-giorgiolai-Desktop-siwfootball/036e47b2-fb58-43df-b100-40ab2a008a1b/scratchpad/cookies_admin2.txt http://localhost:8080/login -o /dev/null)",
       "Bash(curl -s -b /private/tmp/claude-501/-Users-giorgiolai-Desktop-siwfootball/036e47b2-fb58-43df-b100-40ab2a008a1b/scratchpad/cookies_admin2.txt -c /private/tmp/claude-501/-Users-giorgiolai-Desktop-siwfootball/036e47b2-fb58-43df-b100-40ab2a008a1b/scratchpad/cookies_admin2.txt -o /dev/null -w 'login: %{http_code}\\\\n' -X POST http://localhost:8080/login --data-urlencode username=testuser1 --data-urlencode password=testpass123)",
-      "Bash(curl -s -b /private/tmp/claude-501/-Users-giorgiolai-Desktop-siwfootball/036e47b2-fb58-43df-b100-40ab2a008a1b/scratchpad/cookies_admin2.txt http://localhost:8080/admin -o /private/tmp/claude-501/-Users-giorgiolai-Desktop-siwfootball/036e47b2-fb58-43df-b100-40ab2a008a1b/scratchpad/admin_index2.html -w 'http_code=%{http_code}\\\\n')"
+      "Bash(curl -s -b /private/tmp/claude-501/-Users-giorgiolai-Desktop-siwfootball/036e47b2-fb58-43df-b100-40ab2a008a1b/scratchpad/cookies_admin2.txt http://localhost:8080/admin -o /private/tmp/claude-501/-Users-giorgiolai-Desktop-siwfootball/036e47b2-fb58-43df-b100-40ab2a008a1b/scratchpad/admin_index2.html -w 'http_code=%{http_code}\\\\n')",
+      "Bash(mvn -q -DskipTests compile)",
+      "Bash(./mvnw -DskipTests compile)",
+      "Bash(./mvnw -q -DskipTests test-compile)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(mvn -q compile -DskipTests)",
+      "Bash(./mvnw -q compile -DskipTests)",
+      "Bash(./mvnw -q test-compile -DskipTests)",
+      "Bash(javap -p -cp target/classes it.uniroma3.siw.siwfootball.model.Torneo)"
     ],
     "defaultMode": "bypassPermissions"
   }

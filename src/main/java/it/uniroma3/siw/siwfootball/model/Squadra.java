@@ -2,15 +2,22 @@ package it.uniroma3.siw.siwfootball.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Squadra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotBlank
@@ -31,54 +38,6 @@ public class Squadra {
     @ManyToMany(mappedBy = "squadre", fetch = FetchType.LAZY)
     private List<Torneo> tornei = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getAnnoDiFondazione() {
-        return annoDiFondazione;
-    }
-
-    public void setAnnoDiFondazione(String annoDiFondazione) {
-        this.annoDiFondazione = annoDiFondazione;
-    }
-
-    public String getCitta() {
-        return citta;
-    }
-
-    public void setCitta(String citta) {
-        this.citta = citta;
-    }
-
-    public List<Giocatore> getGiocatori() {
-        return giocatori;
-    }
-
-    public void setGiocatori(List<Giocatore> giocatori) {
-        this.giocatori = giocatori;
-    }
-
-    public List<Torneo> getTornei() {
-        return tornei;
-    }
-
-    public void setTornei(List<Torneo> tornei) {
-        this.tornei = tornei;
-    }
-
     public void addGiocatore(Giocatore giocatore) {
         this.giocatori.add(giocatore);
         giocatore.setSquadra(this);
@@ -87,18 +46,5 @@ public class Squadra {
     public void removeGiocatore(Giocatore giocatore) {
         this.giocatori.remove(giocatore);
         giocatore.setSquadra(null);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Squadra squadra = (Squadra) o;
-        return id != null && id.equals(squadra.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

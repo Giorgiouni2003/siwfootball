@@ -4,6 +4,7 @@ import it.uniroma3.siw.siwfootball.model.Giocatore;
 import it.uniroma3.siw.siwfootball.model.Squadra;
 import it.uniroma3.siw.siwfootball.repository.GiocatoreRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +15,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class GiocatoreService {
 
-    private final GiocatoreRepository giocatoreRepository;
-
-    public GiocatoreService(GiocatoreRepository giocatoreRepository) {
-        this.giocatoreRepository = giocatoreRepository;
-    }
+    @Autowired
+    private GiocatoreRepository giocatoreRepository;
 
     public Giocatore findById(Long id) {
         Optional<Giocatore> giocatore = this.giocatoreRepository.findById(id);
