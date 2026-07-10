@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -29,4 +32,8 @@ public class Arbitro {
     @NotBlank
     @Column(nullable = false)
     private String codiceArbitrale;
+
+    //le partite dirette da questo arbitro
+    @OneToMany(mappedBy = "arbitro", fetch = FetchType.LAZY)
+    private List<Partita> partite = new ArrayList<>();
 }

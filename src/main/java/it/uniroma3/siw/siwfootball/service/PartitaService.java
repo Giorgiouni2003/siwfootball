@@ -123,6 +123,13 @@ public class PartitaService {
         }
 
         for (Partita partita : partiteGiocate) {
+
+            // una partita segnata come giocata ma senza risultato (dati inconsistenti,
+            // es. inseriti a mano nel db) viene ignorata invece di far fallire la classifica
+            if (partita.getGoalsHome() == null || partita.getGoalsAway() == null) {
+                continue;
+            }
+
             // 1. recupera (o crea se non esiste) la RigaClassifica per squadraDiCasa e squadraDiTrasferta nella mappa
 
             RigaClassifica rigaCasa = mappaClassifica.get(partita.getSquadraDiCasa());

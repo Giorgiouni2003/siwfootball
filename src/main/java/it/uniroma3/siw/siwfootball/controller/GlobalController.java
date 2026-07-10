@@ -14,8 +14,8 @@ public class GlobalController {
     public UserDetails getUser() {
         UserDetails user = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            user = (UserDetails) authentication.getPrincipal();
         }
         return user;
     }

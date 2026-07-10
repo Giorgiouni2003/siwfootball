@@ -66,6 +66,12 @@ public class AdminSquadraController {
     @PostMapping("/admin/squadre/{id}/edit")
     public String editSquadra(@PathVariable Long id, @Valid @ModelAttribute Squadra squadra, BindingResult bindingResult) {
 
+        // il nuovo nome non deve coincidere con quello di un'altra squadra
+        Squadra esistente = this.squadraService.findByNome(squadra.getNome());
+        if (esistente != null && !esistente.getId().equals(id)) {
+            bindingResult.rejectValue("nome", "duplicato", "Squadra già esistente");
+        }
+
         if (bindingResult.hasErrors()) {
             return "admin/squadre/edit";
         }

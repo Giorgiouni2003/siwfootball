@@ -47,19 +47,21 @@ public class Partita {
     @Column(nullable = false)
     private StatoPartita stato;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    //LAZY: le associazioni vengono caricate solo quando servono davvero;
+    //dove servono tutte in blocco (es. classifica) si usa JOIN FETCH o EntityGraph nel repository
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Torneo torneo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Squadra squadraDiCasa;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Squadra squadraDiTrasferta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Arbitro arbitro;
 

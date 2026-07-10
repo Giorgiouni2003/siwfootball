@@ -61,6 +61,12 @@ public class AdminTorneoController {
     @PostMapping("/admin/tornei/{id}/edit")
     public String editTorneo(@PathVariable Long id, @Valid @ModelAttribute Torneo torneo, BindingResult bindingResult) {
 
+        // il nuovo nome/anno non deve coincidere con quello di un altro torneo
+        Torneo esistente = this.torneoService.findByNomeAndAnno(torneo.getNome(), torneo.getAnno());
+        if (esistente != null && !esistente.getId().equals(id)) {
+            bindingResult.rejectValue("nome", "duplicato", "Torneo già esistente per questo anno");
+        }
+
         if (bindingResult.hasErrors()) {
             return "admin/tornei/edit";
         }

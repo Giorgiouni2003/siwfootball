@@ -44,7 +44,7 @@ public class PartitaApiController {
             @RequestParam(required = false) Long squadraId,
             @RequestParam(required = false) StatoPartita stato) {
 
-        // il service fa il vero filtro sul database; qui trasformiamo ogni Partita
+        // il service applica i filtri (in memoria, su tutte le partite); qui trasformiamo ogni Partita
         // (l'entita' JPA, con tutte le relazioni) in un PartitaDTO piu' semplice da mandare al frontend
         List<PartitaDTO> risultato = new ArrayList<>();
         for (Partita partita : this.partitaService.filtra(torneoId, squadraId, stato)) {

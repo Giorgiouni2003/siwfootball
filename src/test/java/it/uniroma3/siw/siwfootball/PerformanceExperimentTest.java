@@ -18,10 +18,14 @@ import java.util.List;
 
 /**
  * Esperimento di performance richiesto dalla specifica del progetto:
- * confronta il caricamento "naive" (senza JOIN FETCH, quindi soggetto a
- * problema N+1 sulle associazioni @ManyToOne) con il caricamento tramite
- * JOIN FETCH gia' usato in PartitaRepository.findPartiteGiocateByTorneo,
- * per il calcolo della classifica di un torneo (PartitaService.getClassifica).
+ * confronta tre strategie di accesso ai dati per lo stesso caso d'uso,
+ * il calcolo della classifica di un torneo (PartitaService.getClassifica):
+ *
+ * 1. LAZY "naive": le associazioni @ManyToOne di Partita sono FetchType.LAZY,
+ *    quindi ogni squadra viene caricata con una SELECT separata solo quando
+ *    viene effettivamente usata -> problema N+1
+ * 2. JOIN FETCH: una sola query JPQL che carica partite e squadre insieme
+ * 3. EntityGraph: query derivata + grafo di entita' da caricare subito
  *
  * @Rollback: i dati di test vengono creati e poi annullati a fine test,
  * cosi' il database reale non viene alterato in modo permanente.
@@ -106,18 +110,26 @@ public class PerformanceExperimentTest {
         entityManager.flush();
         entityManager.clear(); // svuota la persistence context: nessuna cache di primo livello a falsare i risultati
 
+
+
+
+
+
         // ---- 2. Strategia LAZY/naive: findByTorneo senza JOIN FETCH --------------------
         stats.clear();
         long startLazy = System.nanoTime();
 
         List<Partita> partiteLazy = partitaRepository.findByTorneo(torneo);
-        long puntiTotaliLazy = 0;
+        long caratteriLazy = 0;
         for (Partita p : partiteLazy) {
             if (p.getStato() == StatoPartita.PLAYED) {
-                // accesso alle associazioni ManyToOne: con l'accesso "naive" (nessun
-                // join fetch) Hibernate esegue una SELECT aggiuntiva per ciascuna
-                // associazione non ancora presente nel persistence context
-                puntiTotaliLazy += p.getSquadraDiCasa().getId() + p.getSquadraDiTrasferta().getId();
+                // accesso a una proprieta' delle squadre (il nome): essendo LAZY,
+                // Hibernate inizializza il proxy con una SELECT aggiuntiva per
+                // ciascuna squadra non ancora presente nel persistence context.
+                // (nota: leggere solo getId() NON basterebbe a scatenare la query,
+                // perche' l'id e' gia' contenuto nel proxy)
+                caratteriLazy += p.getSquadraDiCasa().getNome().length()
+                        + p.getSquadraDiTrasferta().getNome().length();
             }
         }
 
@@ -127,41 +139,75 @@ public class PerformanceExperimentTest {
 
         entityManager.clear();
 
+
+
+
+
         // ---- 3. Strategia JOIN FETCH: findPartiteGiocateByTorneo -----------------------
         stats.clear();
         long startJoinFetch = System.nanoTime();
 
         List<Partita> partiteJoinFetch = partitaRepository.findPartiteGiocateByTorneo(torneo, StatoPartita.PLAYED);
-        long puntiTotaliJoinFetch = 0;
+        long caratteriJoinFetch = 0;
         for (Partita p : partiteJoinFetch) {
-            puntiTotaliJoinFetch += p.getSquadraDiCasa().getId() + p.getSquadraDiTrasferta().getId();
+            caratteriJoinFetch += p.getSquadraDiCasa().getNome().length()
+                    + p.getSquadraDiTrasferta().getNome().length();
         }
 
         long durataJoinFetchNs = System.nanoTime() - startJoinFetch;
         long queryCountJoinFetch = stats.getQueryExecutionCount();
         long prepStatCountJoinFetch = stats.getPrepareStatementCount();
 
-        // ---- 4. Report ------------------------------------------------------------------
+        entityManager.clear();
+
+
+
+
+
+
+        // ---- 4. Strategia EntityGraph: findByTorneoAndStato ----------------------------
+        stats.clear();
+        long startEntityGraph = System.nanoTime();
+
+        List<Partita> partiteEntityGraph = partitaRepository.findByTorneoAndStato(torneo, StatoPartita.PLAYED);
+        long caratteriEntityGraph = 0;
+        for (Partita p : partiteEntityGraph) {
+            caratteriEntityGraph += p.getSquadraDiCasa().getNome().length()
+                    + p.getSquadraDiTrasferta().getNome().length();
+        }
+
+        long durataEntityGraphNs = System.nanoTime() - startEntityGraph;
+        long queryCountEntityGraph = stats.getQueryExecutionCount();
+        long prepStatCountEntityGraph = stats.getPrepareStatementCount();
+
+        // ---- 5. Report ------------------------------------------------------------------
         System.out.println("\n================ ESPERIMENTO DI PERFORMANCE ================");
         System.out.println("Caso d'uso: caricamento partite giocate di un torneo per il calcolo della classifica");
         System.out.println("Dati di test: " + NUM_SQUADRE + " squadre, " + NUM_PARTITE + " partite giocate\n");
 
-        System.out.printf("Strategia LAZY / naive (findByTorneo, nessun JOIN FETCH):%n");
+        System.out.printf("Strategia 1 - LAZY / naive (findByTorneo, nessun JOIN FETCH):%n");
         System.out.printf("  - partite elaborate:            %d%n", partiteLazy.size());
         System.out.printf("  - query JPQL di primo livello:  %d%n", queryCountLazy);
         System.out.printf("  - SELECT SQL fisiche eseguite:  %d (1 principale + N+1 per le squadre non ancora in cache)%n", prepStatCountLazy);
         System.out.printf("  - tempo di esecuzione:          %.2f ms%n%n", durataLazyNs / 1_000_000.0);
 
-        System.out.printf("Strategia JOIN FETCH (findPartiteGiocateByTorneo):%n");
+        System.out.printf("Strategia 2 - JOIN FETCH (findPartiteGiocateByTorneo):%n");
         System.out.printf("  - partite elaborate:            %d%n", partiteJoinFetch.size());
         System.out.printf("  - query JPQL di primo livello:  %d%n", queryCountJoinFetch);
         System.out.printf("  - SELECT SQL fisiche eseguite:  %d%n", prepStatCountJoinFetch);
         System.out.printf("  - tempo di esecuzione:          %.2f ms%n%n", durataJoinFetchNs / 1_000_000.0);
 
-        System.out.printf("Riduzione delle SELECT fisiche: da %d a %d (-%.1f%%)%n",
+        System.out.printf("Strategia 3 - EntityGraph (findByTorneoAndStato):%n");
+        System.out.printf("  - partite elaborate:            %d%n", partiteEntityGraph.size());
+        System.out.printf("  - query JPQL di primo livello:  %d%n", queryCountEntityGraph);
+        System.out.printf("  - SELECT SQL fisiche eseguite:  %d%n", prepStatCountEntityGraph);
+        System.out.printf("  - tempo di esecuzione:          %.2f ms%n%n", durataEntityGraphNs / 1_000_000.0);
+
+        System.out.printf("Riduzione delle SELECT fisiche (LAZY -> JOIN FETCH): da %d a %d (-%.1f%%)%n",
                 prepStatCountLazy, prepStatCountJoinFetch,
                 100.0 * (prepStatCountLazy - prepStatCountJoinFetch) / prepStatCountLazy);
-        System.out.printf("Speedup: %.2fx%n", (double) durataLazyNs / durataJoinFetchNs);
+        System.out.printf("Speedup JOIN FETCH:  %.2fx%n", (double) durataLazyNs / durataJoinFetchNs);
+        System.out.printf("Speedup EntityGraph: %.2fx%n", (double) durataLazyNs / durataEntityGraphNs);
         System.out.println("==============================================================\n");
     }
 }
